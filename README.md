@@ -91,16 +91,21 @@ PDFを生成できるようにする予定です。
 ファイル構成
 ------------
 
-    /-+- OMakefile
-      +- book.tex
-      +- hayamiz/
-          +- preface.tex
-          +- pgcon-report.tex
-            ...
-      +- <your name>/
-          +- article01.tex
-          +- article02.tex
-            ...
+    dbtimes-vol01/
+     +- OMakefile
+     +- OMakeroot
+     +- book.tex
+     +- hayamiz/
+         +- images/
+             +- ...
+         +- OMakefile
+         +- preface.tex
+         +- pgcon-report.tex
+           ...
+     +- <your name>/
+         +- article01.tex
+         +- article02.tex
+           ...
 
 各自の名前でディレクトリを作成して、自分の書いた記事のファイルを
 book.tex で input するよう、全体のファイルを構成します。記事のファイル
