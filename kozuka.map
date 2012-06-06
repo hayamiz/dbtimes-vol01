@@ -1,0 +1,126 @@
+rml            H                   KozMinPr6N-Regular.otf
+rmlv           V                   KozMinPr6N-Regular.otf
+
+%rml            H                  !KozMinPr6N-Regular.otf
+%rmlv           V                  !KozMinPr6N-Regular.otf
+
+gbm            H                   KozGoPr6N-Medium.otf
+gbmv           V                   KozGoPr6N-Medium.otf
+
+%gbm            H                  !KozGoPr6N-Medium.otf
+%gbmv           V                  !KozGoPr6N-Medium.otf
+
+%%% OTF package
+hminr-h        H                   KozMinPr6N-Regular.otf
+hminr-v        V                   KozMinPr6N-Regular.otf
+otf-ujmr-h     UniJIS-UTF16-H      KozMinPr6N-Regular.otf
+otf-ujmr-v     UniJIS-UTF16-V      KozMinPr6N-Regular.otf
+otf-cjmr-h     Adobe-Japan1-6      KozMinPr6N-Regular.otf
+otf-cjmr-v     Identity-V          KozMinPr6N-Regular.otf
+
+%hminr-h        H                  !KozMinPr6N-Regular.otf
+%hminr-v        V                  !KozMinPr6N-Regular.otf
+%otf-ujmr-h     UniJIS-UTF16-H     !KozMinPr6N-Regular.otf
+%otf-ujmr-v     UniJIS-UTF16-V     !KozMinPr6N-Regular.otf
+%otf-cjmr-h     Adobe-Japan1-6     !KozMinPr6N-Regular.otf
+%otf-cjmr-v     Identity-V         !KozMinPr6N-Regular.otf
+
+hgothr-h       H                   KozGoPr6N-Medium.otf
+hgothr-v       V                   KozGoPr6N-Medium.otf
+otf-ujgr-h     UniJIS-UTF16-H      KozGoPr6N-Medium.otf
+otf-ujgr-v     UniJIS-UTF16-V      KozGoPr6N-Medium.otf
+otf-cjgr-h     Adobe-Japan1-6      KozGoPr6N-Medium.otf
+otf-cjgr-v     Identity-V          KozGoPr6N-Medium.otf
+
+%hgothr-h       H                  !KozGoPr6N-Medium.otf
+%hgothr-v       V                  !KozGoPr6N-Medium.otf
+%otf-ujgr-h     UniJIS-UTF16-H     !KozGoPr6N-Medium.otf
+%otf-ujgr-v     UniJIS-UTF16-V     !KozGoPr6N-Medium.otf
+%otf-cjgr-h     Adobe-Japan1-6     !KozGoPr6N-Medium.otf
+%otf-cjgr-v     Identity-V         !KozGoPr6N-Medium.otf
+
+hminb-h        H                   KozMinPr6N-Bold.otf
+hminb-v        V                   KozMinPr6N-Bold.otf
+otf-ujmb-h     UniJIS-UTF16-H      KozMinPr6N-Bold.otf
+otf-ujmb-v     UniJIS-UTF16-V      KozMinPr6N-Bold.otf
+otf-cjmb-h     Adobe-Japan1-6      KozMinPr6N-Bold.otf
+otf-cjmb-v     Identity-V          KozMinPr6N-Bold.otf
+
+hgothb-h       H                   KozGoPr6N-Bold.otf
+hgothb-v       V                   KozGoPr6N-Bold.otf
+otf-ujgb-h     UniJIS-UTF16-H      KozGoPr6N-Bold.otf
+otf-ujgb-v     UniJIS-UTF16-V      KozGoPr6N-Bold.otf
+otf-cjgb-h     Adobe-Japan1-6      KozGoPr6N-Bold.otf
+otf-cjgb-v     Identity-V          KozGoPr6N-Bold.otf
+
+hmgothr-h      H                   KozGoPr6N-Heavy.otf
+hmgothr-v      V                   KozGoPr6N-Heavy.otf
+otf-ujmgr-h    UniJIS-UTF16-H      KozGoPr6N-Heavy.otf
+otf-ujmgr-v    UniJIS-UTF16-V      KozGoPr6N-Heavy.otf
+otf-cjmgr-h    Adobe-Japan1-6      KozGoPr6N-Heavy.otf
+otf-cjmgr-v    Identity-V          KozGoPr6N-Heavy.otf
+
+hminl-h        H                   KozMinPr6N-Light.otf
+hminl-v        V                   KozMinPr6N-Light.otf
+otf-ujml-h     UniJIS-UTF16-H      KozMinPr6N-Light.otf
+otf-ujml-v     UniJIS-UTF16-V      KozMinPr6N-Light.otf
+otf-cjml-h     Adobe-Japan1-6      KozMinPr6N-Light.otf
+otf-cjml-v     Identity-V          KozMinPr6N-Light.otf
+
+otf-ucmr-h     UniGB-UTF16-H       AdobeSongStd-Light.otf
+otf-ucmr-v     UniGB-UTF16-V       AdobeSongStd-Light.otf
+otf-ccmr-h     Adobe-GB1-5         AdobeSongStd-Light.otf
+otf-ccmr-v     Identity-V          AdobeSongStd-Light.otf
+
+otf-ucgr-h     UniGB-UTF16-H       AdobeHeitiStd-Regular.otf
+otf-ucgr-v     UniGB-UTF16-V       AdobeHeitiStd-Regular.otf
+otf-ccgr-h     Adobe-GB1-5         AdobeHeitiStd-Regular.otf
+otf-ccgr-v     Identity-V          AdobeHeitiStd-Regular.otf
+
+otf-utmr-h     UniCNS-UTF16-H      AdobeMingStd-Light.otf
+otf-utmr-v     UniCNS-UTF16-V      AdobeMingStd-Light.otf
+otf-ctmr-h     Adobe-CNS1-5        AdobeMingStd-Light.otf
+otf-ctmr-v     Identity-V          AdobeMingStd-Light.otf
+
+otf-utgr-h     UniCNS-UTF16-H      AdobeFanHeitiStd-Bold.otf
+otf-utgr-v     UniCNS-UTF16-V      AdobeFanHeitiStd-Bold.otf
+otf-ctgr-h     Adobe-CNS1-5        AdobeFanHeitiStd-Bold.otf
+otf-ctgr-v     Identity-V          AdobeFanHeitiStd-Bold.otf
+otf-ukmr-h     UniKS-UTF16-H       AdobeMyungjoStd-Medium.otf
+otf-ukmr-v     UniKS-UTF16-V       AdobeMyungjoStd-Medium.otf
+otf-ckmr-h     Adobe-Korea1-2      AdobeMyungjoStd-Medium.otf
+otf-ckmr-v     Identity-V          AdobeMyungjoStd-Medium.otf
+
+otf-ukgr-h     UniKS-UTF16-H       AdobeGothicStd-Bold.otf
+otf-ukgr-v     UniKS-UTF16-V       AdobeGothicStd-Bold.otf
+otf-ckgr-h     Adobe-Korea1-2      AdobeGothicStd-Bold.otf
+otf-ckgr-v     Identity-V          AdobeGothicStd-Bold.otf
+%%% UTF package
+hmr            H                   KozMinPr6N-Regular.otf
+hmrv           V                   KozMinPr6N-Regular.otf
+unijmin-h      UniJIS-UTF16-H      KozMinPr6N-Regular.otf
+unijmin-v      UniJIS-UTF16-V      KozMinPr6N-Regular.otf
+cidmin-h       Adobe-Japan1-6      KozMinPr6N-Regular.otf
+cidmin-v       Identity-V          KozMinPr6N-Regular.otf
+
+%hmr            H                  !KozMinPr6N-Regular.otf
+%hmrv           V                  !KozMinPr6N-Regular.otf
+%unijmin-h      UniJIS-UTF16-H     !KozMinPr6N-Regular.otf
+%unijmin-v      UniJIS-UTF16-V     !KozMinPr6N-Regular.otf
+%cidmin-h       Adobe-Japan1-6     !KozMinPr6N-Regular.otf
+%cidmin-v       Identity-V         !KozMinPr6N-Regular.otf
+
+hkb            H                   KozGoPr6N-Medium.otf
+hkbv           V                   KozGoPr6N-Medium.otf
+unijgoth-h     UniJIS-UTF16-H      KozGoPr6N-Medium.otf
+unijgoth-v     UniJIS-UTF16-V      KozGoPr6N-Medium.otf
+cidgoth-h      Adobe-Japan1-6      KozGoPr6N-Medium.otf
+cidgoth-v      Identity-V          KozGoPr6N-Medium.otf
+
+%hkb            H                  !KozGoPr6N-Medium.otf
+%hkbv           V                  !KozGoPr6N-Medium.otf
+%unijgoth-h     UniJIS-UTF16-H     !KozGoPr6N-Medium.otf
+%unijgoth-v     UniJIS-UTF16-V     !KozGoPr6N-Medium.otf
+%cidgoth-h      Adobe-Japan1-6     !KozGoPr6N-Medium.otf
+%cidgoth-v      Identity-V         !KozGoPr6N-Medium.otf
+

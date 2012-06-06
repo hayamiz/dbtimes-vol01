@@ -1,0 +1,221 @@
+% -*- coding: utf-8 -*-
+
+\documentclass[b5paper]{jsbook}
+
+\usepackage{amsmath,ascmac}
+\usepackage{graphicx}
+\usepackage{dbtimes}
+\usepackage{lettrine}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+
+\fancyhead{}
+\fancyhead[RO,RE]{\rightmark}
+\fancyhead[LE,LO]{\leftmark}
+\cfoot{-- \thepage \ --}
+
+\makeatletter
+\renewcommand{\chaptermark}[1]
+{\markboth{\ifnum \thechapter >\z@\thechapter\ \fi~#1}{}}
+\makeatother
+\renewcommand{\sectionmark}[1]{\markright{\thesection #1}{}}
+
+% Bookman Old Style
+\usepackage{bookman}
+\usepackage{helvet}
+
+\renewcommand{\prechaptername}{}
+\renewcommand{\postchaptername}{}
+
+% Use the same header design for each the first pages in chapters
+\makeatletter
+\renewcommand{\chapter}{%
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \global\@topnum\z@
+  \secdef\@chapter\@schapter}
+\makeatother
+
+\makeatletter
+\def\@makechapterhead#1{%
+  \vspace*{0.5\Cvs}% 欧文は50pt
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \LARGE\headfont \@chapapp\thechapter\@chappos
+        \quad\nobreak
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \LARGE \headfont #1\par\nobreak
+    \vskip 2\Cvs}} % 欧文は40pt
+\makeatother
+
+% page number at the center bottom
+
+\title{Database Times Vol. 1}
+\date{2012/8/15}
+\author{Hotchpotch Society}
+
+
+%% Page Layout
+% B5: 182mm x 257mm
+\setlength{\voffset}{0mm}
+\setlength{\topmargin}{-12mm}
+\setlength{\textheight}{200mm}
+\setlength{\footskip}{10mm}
+\setlength{\textwidth}{40zw}
+\setlength{\marginparwidth}{0mm}
+\setlength{\marginparsep}{0mm}
+\setlength{\oddsidemargin}{4mm}
+\setlength{\evensidemargin}{-8mm}
+% \addtolength{\columnsep}{0mm}
+
+\begin{document}
+
+\begin{center}
+ \includegraphics[width=12cm]{images/title.eps}
+ \vspace*{50mm}
+
+ Hotchpotch Society, 2012
+\end{center}
+
+\chapter*{まえがき}
+
+\lettrine{ま}\ えがき。前書き。前書きとは、書物や論文などで本文の前に書
+き添える文のことである。その書物の品位、格式などにより序文、端書き、巻頭
+言などの言葉が用いられる。英語では preface、foreword などがそれに相当す
+る言葉である。
+
+そもそも、まえがきとは一体なんなのか、改めて考えてみたい。多くの人が本を
+手にとったとき、必ずまず目にするのが表紙であり、その次に高い確率で読まれ
+るのがまえがきである。つまり書物を人間に例えるとするならば、表紙とは外見
+であり、まえがきとは開口一番その人間が初対面の相手に向かって話す内容であ
+る。人は見た目が九割というベストセラーがあったが、残りの一割のうち九分を
+決定するのが、このまえがきであろう。
+
+であるとするならば、一体まえがきには何を書くべきなのだろうか。
+
+教科書のような真面目な書物であれば、ある学問領域におけるその書物の占める
+位置づけや、読み進め方、学習の進め方などが適切な内容であろう。著者によっ
+ては、その書物を執筆した際のエピソードが語られることもしばしばみられる。
+また欧米の場合には、重厚な教科書に限って愛する妻と娘に捧げられていること
+が多いあたり、日本との文化の違いが伺われる。話が逸れたが、真面目な書物のま
+えがきは、やはり原則として真面目にその書物の位置づけを語り、そして関係各
+所への謝辞で締め括るのが一般的であり、常識的である。
+
+一方、本書は別段真面目でもない同人誌である。何か学問的な意義を求めて出版
+するわけでもなく、社会の役に立つことを良しとする類の書物でもない。書いて
+字のごとく、同人（同好の士）が集まり、自らが良しとする内容を、自らの満足
+のために書き連ねるだけの代物である。即ち、同人誌という書物そのものが自己
+満足のために存在しているということであり、まえがきもまたその自己満足の一
+部にすぎないのである。
+
+これを以て、この一見無意味に思われるまえがきが、実は同人誌の目的である自
+己満足という観点からすると、著者が満足しているという点において意味のある
+ものである、という言い訳として、このまえがきを締めたいと思う。
+
+\begin{flushright}
+ 2012年 8月
+
+はやみず
+\end{flushright}
+
+\section*{Database Times vol.01 の道案内}
+
+
+
+\newpage
+
+\tableofcontents
+
+\chapter{PostgreSQL Conference 2012 レポート}
+
+\begin{flushright}
+ はやみず
+\end{flushright}
+
+2012年3月24日に日本PostgreSQLユーザ会主催で開催されたPostgreSQLカンファレンス2012に参加してきました。 各講演の立ち入ったレポートに関しては方々のブログで紹介されることを期待して、ここでは主に会議の全体感に関してレポートしたいと思います。
+
+このカンファレンスはオフィシャルサイトにあるように技術的な話題を中心として、PostgreSQLに関する導入事例や技術的な話題を提供するためのカンファレンスです。 昨年度の参加者約180名に対して今年度は275名(関係者含む)ということで、日本におけるPostgreSQLのユーザ層の広がりを感じさせます。 特にこの数年はビジネスとしてこのカンファレンスに参加する方も増えているそうで、業務用途としてのPostgreSQLの利用が広まっていることを示しているのではないかと思われます。
+
+Linuxの急速な普及をきっかけとして、今やオープンソースソフトウェアを業務において利用することは全く珍しくなくなっています。 PostgreSQLもその例に漏れず、といったところでしょうか。本年度のカンファレンスのプログラムも、業務用途におけるPostgreSQLの利用ということが一つの大きな軸として捉えられているように見えます。 例えば、午後のプログラムは3トラック構成となっていたのですが、そのうちの1トラックは「マイグレーショントラック」と題して他のDBMSからPostgreSQLへ移行することを主眼としたものであり、「商用 DB から PostgreSQL への移行」「PostgreSQL がより使いやすく進化した Postgres Plus Advanced Server の実力とは」などは明らかに商用DBを意識しています。また、技術トラックやLightning Talkにおいて高可用・高性能なPostgreSQLクラスタに関する発表がありました。業務用DBMSとしてはクラスタソリューションがほしい。MySQLにはMySQL Clusterが、OracleにはOracle RACが、じゃあPostgreSQLはどうなの？というポイントに答えを出すのが、今回のカンファレンスの一つの見所だったのではないでしょうか。
+
+もちろん、ビジネス的な側面だけではなく、技術の深い話もできるのがこのカンファレンスの魅力だと思います。午前中の基調講演では、PostgreSQLの大型移行案件の事例紹介であるフランス社会保障機構の講演に加えて、PostgreSQLのコア開発者でありコミュニティの中でも若手のエースと目されているEnterpriseDB社のRobert Haas氏によるPostgreSQL 9.2の新機能に関する講演がありました。こちらの講演では、メニーコア環境におけるスケーラビリティ向上の取り組みや、Index-only Scanの導入、消費電力削減のための実装努力、レプリケーションの新機能、その他細々とした新機能などが紹介されました。加えて、バージョン9.2より後にどんな技術的な課題に取り組んでいくべきか、といった方向性についても触れられていました。質疑応答も非常に活発に行われていたのが印象的です。一つ残念だったのは、こちらの講演は発表・質疑応答ともに逐次翻訳が行われていたため、実際に話せる時間が半分になってしまっていたことです。英語のみで進行してくれたほうが個人的には中身がもっと詰まって面白かったのではないかと思いますが、難しいところですね。
+
+もう1件技術的な講演として面白かったのは藤井雅雄氏、松尾隆利氏による「PostgreSQL 9.1 同期レプリケーションと Pacemaker による高可用クラスタ化の紹介」です。 こちらの発表では、まず藤井氏からPostgreSQLにおけるレプリケーションの詳細について紹介されていました。非同期レプリケーション、同期レプリケーションの動作や、何ができるのか、何ができないのかについて丁寧にまとめられており、レプリケーション機能の全体像を理解できる発表でした。またそれに加えて、9.2で導入される予定のレプリケーション関連の機能紹介や、周辺ツールに関する紹介もありました。 その後、松尾氏により同期レプリケーション機能とPacemakerを組み合わせることによる、障害発生時にもフェイルオーバ可能なクラスタ構成法についての発表が行われました。Pacemakerについては名前くらいしか知らなかったのですが、障害発生からフェールオーバまでの流れがわかりやすく図解されており、Pacemakerを知るという観点からも有用な発表であったように思います。
+
+本会議のほうについてはこんなところで、懇親会にも参加したのでの話をひとつ。PostgreSQLのお役立ち情報源として参照している人も多いかと思われるLet’s Postgresという読み物サイトがあるのですが、こちらの運営をしている方とお話をさせて頂きました。 この手の読み物サイトでは、最も需要の高い入門系記事や、企業の提灯記事が並ぶというのがよくあるパターンなのですが、Let’s PostgresにはPostgreSQLの内部構造についてやたら詳しく書かれた記事がたくさんあり、これは一体どういったことだろうと思っていたのでした。 そのことを聞いてみたところ、内部構造の多くは記事PostgreSQL本体にコミットしている開発者の方々が好きで寄稿しているということだそうです。PostgreSQL自体が内部構造まで含めた子細なドキュメントが充実していますが、新機能の実装詳解がこれほどまで精力的に行われているソフトウェアはなかなかないのではないかとおもいます。これらの記事は目的別ガイド：内部解析編としてまとめられています。内部の詳解に加えて、開発プロセスへの参加方法についても紹介されており、非常に充実した内容となっています。PostgreSQLの中身に興味がある人は必見ですね。
+
+以上、簡単ではありますが参加レポートでした。
+
+\chapter{PostgreSQLの歴史(仮)}
+
+\section{PostgreSQLとは}
+
+あああ
+
+\section{Ingres}
+
+いいい
+
+\chapter*{あとがき}
+
+\pagestyle{empty}
+
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+あとがき
+
+\newpage
+
+\section*{著者紹介}
+
+\noindent {\gt ■ はやみず}
+
+日本人。
+
+\noindent {\gt ■ はやみず}
+
+日本人。
+
+\noindent {\gt ■ はやみず}
+
+日本人。
+
+\vspace*{50mm}
+
+\begin{center}
+ \includegraphics[width=8cm]{images/colophon.eps}
+ \par\vspace*{1mm}
+ \begin{tabular}{rl}
+  \hline
+  タイトル & Database Times vol.1 \\
+  発行日 & 2012年8月11日 \\
+  サークル & ホッチポッチソサイエティ \\
+  著者 & はやみず、はやみず、はやみず、TODO: \\
+  発行責任者 & はやみず \\
+  連絡先 & {\it yuto+c82@hayamiz.com} or {\it @hayamiz} (Twitter) \\
+  ウェブサイト & {\it http://hayamiz.com/\~{}hotchpotch/} \\
+  印刷所 & TODO: \\
+  \hline
+ \end{tabular}
+\end{center}
+
+\end{document}
