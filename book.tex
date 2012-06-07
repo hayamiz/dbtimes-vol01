@@ -85,11 +85,9 @@
 % まえがきページ
 \input{hayamiz/preface}
 
-\newpage
-
 % 目次ページ
+\setcounter{tocdepth}{0} % show only chapters
 \tableofcontents
-
 
 % 本文ここから
 \input{hayamiz/pgcon-report.tex}
@@ -97,9 +95,9 @@
 \input{hogelog/hoge.tex}
 % 本文ここまで
 
+\backmatter
 
-\chapter*{あとがき}
-
+\chapter{あとがき}
 \pagestyle{empty}
 
 あとがき
