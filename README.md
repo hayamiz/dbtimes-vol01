@@ -87,6 +87,15 @@ pLaTeX、および必要なパッケージがインストールされた環境�
 
     $ omake book-ready.pdf
 
+小塚フォントを持っていない人もいると思うので、ビルドサーバを立てました。
+
+  * Jenkins: http://jenkins.hayamiz.com/job/dbtimes-vol01/
+    * Github に push するとビルドが始まる
+  * 生成されるPDF置場: http://hayamiz.com/~haya/files/dbtimes-vol01/
+    * 一応Basic認証をかけてある
+      * username: hotchpotch
+      * password: station
+
 小塚フォントを持っていない人もいると思うので、近日中にビルドサーバを立
 てて、このgitレポジトリにコミットされるたびに小塚フォントの埋め込まれた
 PDFを生成できるようにする予定です。
