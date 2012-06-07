@@ -1,5 +1,5 @@
 
-.SUBDIRS: hayamiz
+.SUBDIRS: hayamiz hogelog
 
 LATEX = platex -interaction=batchmode
 DVIPDFM = dvipdfmx

@@ -48,6 +48,9 @@ Circle.ms 申し込み履歴より抜粋
   * suu_g
   * yuyarin
   * hogelog
+    * Adobe Alchemyが云々
+    * もしくはBrainf*ckインタプリタとかの話
+    * もしくは黒歴史
 
 
 原稿執筆の進め方
