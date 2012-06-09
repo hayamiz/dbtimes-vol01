@@ -4,7 +4,7 @@
 LATEX = platex -interaction=batchmode
 DVIPDFM = dvipdfmx
 # BIBTEX = jbibtex
-DVIPDFMFLAGS    = -p b5 -r 2400 # otf-ipaex.map # -f dvipdfm_dl14.map
+DVIPDFMFLAGS = -r 2400 # otf-ipaex.map # -f dvipdfm_dl14.map
 
 .PHONY: clean build
 
@@ -16,6 +16,6 @@ build: book.dvi book.pdf
 LaTeXDocument(book, book)
 
 book-ready.pdf: book.dvi
-  $(DVIPDFM) -p b5 -r 2400 -f kozuka.map -o $@ $<
+  $(DVIPDFM) -r 2400 -f kozuka.map -o $@ $<
 
 .DEFAULT: build

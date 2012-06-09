@@ -1,6 +1,6 @@
 % -*- coding: utf-8 -*-
 
-\documentclass[b5paper]{jsbook}
+\documentclass[b5paper,papersize,tombow,10pt]{jsbook}
 
 \usepackage{amsmath,ascmac}
 \usepackage{graphicx}
@@ -12,7 +12,7 @@
 \fancyhead{}
 \fancyhead[RO,RE]{\rightmark}
 \fancyhead[LE,LO]{\leftmark}
-\cfoot{-- \thepage \ --}
+\cfoot{-- \thepage \ --} % page number at the center bottom
 
 \makeatletter
 \renewcommand{\chaptermark}[1]
@@ -34,9 +34,6 @@
   \if@openright\cleardoublepage\else\clearpage\fi
   \global\@topnum\z@
   \secdef\@chapter\@schapter}
-\makeatother
-
-\makeatletter
 \def\@makechapterhead#1{%
   \vspace*{0.5\Cvs}% 欧文は50pt
   {\parindent \z@ \raggedright \normalfont
@@ -51,12 +48,10 @@
     \vskip 2\Cvs}} % 欧文は40pt
 \makeatother
 
-% page number at the center bottom
 
 \title{Database Times Vol. 1}
-\date{2012/8/15}
+\date{2012/8/11}
 \author{Hotchpotch Society}
-
 
 %% Page Layout
 % B5: 182mm x 257mm
@@ -64,12 +59,10 @@
 \setlength{\topmargin}{-13mm}
 \setlength{\textheight}{205mm}
 \setlength{\footskip}{10mm}
-% \setlength{\textwidth}{40zw}
-\setlength{\marginparwidth}{0mm}
-\setlength{\marginparsep}{0mm}
-% \setlength{\oddsidemargin}{4mm}
-% \setlength{\evensidemargin}{-8mm}
-% \addtolength{\columnsep}{0mm}
+
+% set margin for openleft
+\setlength{\oddsidemargin}{-\oddsidemargin}
+\setlength{\evensidemargin}{-\oddsidemargin}
 
 \begin{document}
 
