@@ -1,72 +1,177 @@
 % -*- coding: utf-8 -*-
 
-\documentclass[b5paper,papersize,tombow,10pt]{jsbook}
+\documentclass[b5paper,papersize,tombow,12pt]{jsbook}
 
 \usepackage{amsmath,ascmac}
 \usepackage{graphicx}
 \usepackage{lettrine}
 \usepackage{fancyhdr}
-
-\pagestyle{fancy}
-
-\fancyhead{}
-\fancyhead[RO,RE]{\rightmark}
-\fancyhead[LE,LO]{\leftmark}
-\cfoot{-- \thepage \ --} % page number at the center bottom
-
-\makeatletter
-\renewcommand{\chaptermark}[1]
-{\markboth{\ifnum \thechapter >\z@\thechapter\ \fi~#1}{}}
-\makeatother
-\renewcommand{\sectionmark}[1]{\markright{\thesection #1}{}}
-
-% Bookman Old Style
-\usepackage[sc]{mathpazo}
-% \linespread{1.05}
+% Palatino
 \usepackage{palatino}
 
-\renewcommand{\prechaptername}{}
-\renewcommand{\postchaptername}{}
-
-% Use the same header design for each the first pages in chapters
-\makeatletter
-\renewcommand{\chapter}{%
-  \if@openright\cleardoublepage\else\clearpage\fi
-  \global\@topnum\z@
-  \secdef\@chapter\@schapter}
-\def\@makechapterhead#1{%
-  \vspace*{0.5\Cvs}% 欧文は50pt
-  {\parindent \z@ \raggedright \normalfont
-    \ifnum \c@secnumdepth >\m@ne
-      \if@mainmatter
-        \LARGE\headfont \@chapapp\thechapter\@chappos
-        \quad\nobreak
-      \fi
-    \fi
-    \interlinepenalty\@M
-    \LARGE \headfont #1\par\nobreak
-    \vskip 2\Cvs}} % 欧文は40pt
-\makeatother
-
-
-\title{Database Times Vol. 1}
-\date{2012/8/11}
-\author{Hotchpotch Society}
 
 %% Page Layout
 % B5: 182mm x 257mm
 \setlength{\voffset}{0mm}
 \setlength{\topmargin}{-13mm}
-\setlength{\textheight}{205mm}
+\setlength{\textheight}{29\Cvs}
 \setlength{\footskip}{10mm}
 
 % set margin for openleft
-\setlength{\oddsidemargin}{-\oddsidemargin}
-\setlength{\evensidemargin}{-\oddsidemargin}
+% \setlength{\oddsidemargin}{-\oddsidemargin}
+% \setlength{\evensidemargin}{-\oddsidemargin}
+
+
+\pagestyle{fancy}
+
+\fancyhead{}
+% \fancyhead[RO,RE]{\rightmark}
+% \fancyhead[LE,LO]{\leftmark}
+\fancyhead[RO]{\rightmark}
+\fancyhead[LE]{\leftmark}
+\cfoot{\bfseries -- \thepage \ --} % page number at the center bottom
+\renewcommand{\headrule}{
+\vskip -1.5mm
+\hskip-0.03\textwidth\includegraphics[width=1.06\textwidth,height=3.78mm]{hayamiz/images/hrule.eps}
+\vskip -2.28mm
+}
+
+% jsbook.cls use 'plainhead' style for the first page of each chapter
+\fancypagestyle{plainhead}{
+\fancyhf{}
+\cfoot{\bfseries -- \thepage \ --}
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\headrule}{}
+}
+
+% jsbook.cls use 'empty' style for blank
+\fancypagestyle{empty}{
+\fancyhf{}
+\cfoot{\bfseries -- \thepage \ --}
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\headrule}{}
+}
+
+\makeatletter
+\renewcommand{\chapter}{%
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \plainifnotempty % 元: \thispagestyle{plain}
+  \global\@topnum\z@
+  \if@english \@afterindentfalse \else \@afterindenttrue \fi
+  \secdef\@chapter\@schapter}
+\def\@chapter[#1]#2{%
+  \ifnum \c@secnumdepth >\m@ne
+    \if@mainmatter
+      \refstepcounter{chapter}%
+      \typeout{\@chapapp\thechapter\@chappos}%
+      \addcontentsline{toc}{chapter}%
+        {\protect\numberline
+        {\if@english\thechapter\else\@chapapp\thechapter\@chappos\fi}%
+        #1}%
+    \else\addcontentsline{toc}{chapter}{#1}\fi
+  \else
+    \addcontentsline{toc}{chapter}{#1}%
+  \fi
+  \chaptermark{#1}%
+  \addtocontents{lof}{\protect\addvspace{10\p@}}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+  \if@twocolumn
+    \@topnewpage[\@makechapterhead{#2}]%
+  \else
+    \@makechapterhead{#2}%
+    \@afterheading
+  \fi}
+\def\@schapter#1{%
+  \chaptermark{#1}%
+  \if@twocolumn
+    \@topnewpage[\@makeschapterhead{#1}]%
+  \else
+    \@makeschapterhead{#1}\@afterheading
+  \fi}
+
+\def\@normalchapter[#1]#2{%
+  \ifnum \c@secnumdepth >\m@ne
+    \if@mainmatter
+      \refstepcounter{chapter}%
+      \typeout{\@chapapp\thechapter\@chappos}%
+      \addcontentsline{toc}{chapter}%
+        {\protect\numberline
+        {\if@english\thechapter\else\@chapapp\thechapter\@chappos\fi}%
+        #1}%
+    \else\addcontentsline{toc}{chapter}{#1}\fi
+  \else
+    \addcontentsline{toc}{chapter}{#1}%
+  \fi
+  \chaptermark{#1}%
+  \addtocontents{lof}{\protect\addvspace{10\p@}}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+  \if@twocolumn
+    \@topnewpage[\@makechapterhead{#2}]%
+  \else
+    \@makechapterhead{#2}%
+    \@afterheading
+  \fi}
+\def\@normalschapter#1{%
+  \chaptermark{#1}%
+  \if@twocolumn
+    \@topnewpage[\@makeschapterhead{#1}]%
+  \else
+    \@makeschapterhead{#1}\@afterheading
+  \fi}
+\def\@makechapterhead#1{%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \huge\headfont \@chapapp\thechapter\@chappos
+        \par\nobreak
+        \vskip \Cvs % 欧文は20pt
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \begin{center}
+     {\LARGE \headfont #1}\par\nobreak\noindent
+\hskip-0.03\textwidth\includegraphics[width=1.06\textwidth,height=7.59mm]{hayamiz/images/chapter-title-ornament.eps}\vskip-7.59mm\vskip-0.5\Cvs
+    \end{center}
+    \par\nobreak
+    \vskip 1\Cvs}} % 欧文は40pt
+\def\@makeschapterhead#1{%
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+	\begin{center}
+    {\LARGE \headfont #1}\par\nobreak\noindent
+\hskip-0.03\textwidth\includegraphics[width=1.06\textwidth,height=7.59mm]{hayamiz/images/chapter-title-ornament.eps}\vskip-7.59mm\vskip-0.5\Cvs
+    \end{center}
+	\par\nobreak
+    \vskip 3\Cvs}} % 欧文は40pt
+\makeatother
+
+\renewcommand{\prechaptername}{Article }
+\renewcommand{\postchaptername}{}
+
+\ifx\Cht\undefined
+ \newdimen\Cht\newdimen\Cdp
+ \setbox0\hbox{\char\jis"2121}\Cht=\ht0\Cdp=\dp0\fi
+\makeatletter
+\long\def\linespace#1#2{\par\noindent
+  \dimen@=\baselineskip\multiply\dimen@ #1\advance\dimen@-\baselineskip
+  \advance\dimen@-\Cht\advance\dimen@\Cdp
+  \setbox0\vbox{\noindent #2}\advance\dimen@\ht0\advance\dimen@-\dp0%
+  \vtop to\z@{\hbox{\vrule width\z@ height\Cht depth\z@
+   \raise-.5\dimen@\hbox{\box0}}\vss}%
+  \dimen@=\baselineskip\multiply\dimen@ #1\advance\dimen@-\baselineskip
+  \vskip\dimen@}
+\makeatother
+
+\title{Database Times Vol. 1}
+\date{2012/8/11}
+\author{Hotchpotch Society}
 
 \begin{document}
 
 \thispagestyle{empty}
+
+\frontmatter
 
 % タイトルページ
 \begin{center}
@@ -81,6 +186,10 @@
 % 目次ページ
 \setcounter{tocdepth}{0} % show only chapters
 \tableofcontents
+
+\mainmatter
+
+\pagestyle{fancy}
 
 % 本文ここから
 \input{hayamiz/pgcon-report.tex}
@@ -130,6 +239,11 @@
 \noindent {\gt ■ はやみず}
 
 日本人。
+
+\noindent {\gt ■ mmk (表紙デザイン)}
+
+日本人。
+
 
 \vspace*{50mm}
 
