@@ -122,7 +122,7 @@
   {\parindent \z@ \raggedright \normalfont
     \ifnum \c@secnumdepth >\m@ne
       \if@mainmatter
-        \huge\headfont \@chapapp\thechapter\@chappos
+        \centering\huge\headfont \@chapapp\thechapter\@chappos
         \par\nobreak
         \vskip \Cvs % 欧文は20pt
       \fi
@@ -146,12 +146,16 @@
     \vskip 3\Cvs}} % 欧文は40pt
 \makeatother
 
-\renewcommand{\prechaptername}{Article }
+\renewcommand{\prechaptername}{}
 \renewcommand{\postchaptername}{}
+
+\makeatletter
+\renewcommand{\thesection}{\S\,\@arabic\c@section}
+\makeatother
 
 \ifx\Cht\undefined
  \newdimen\Cht\newdimen\Cdp
- \setbox0\hbox{\char\jis"2121}\Cht=\ht0\Cdp=\dp0\fi
+ \setbox0\hbox{\char\jis2121}\Cht=\ht0\Cdp=\dp0\fi
 \makeatletter
 \long\def\linespace#1#2{\par\noindent
   \dimen@=\baselineskip\multiply\dimen@ #1\advance\dimen@-\baselineskip
@@ -204,49 +208,29 @@
 \chapter{あとがき}
 \pagestyle{empty}
 
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-あとがき
-
-\newpage
+後にも先にも
 
 \section*{著者紹介}
 
 \noindent {\gt ■ はやみず}
 
-駒場にある某研究室にて、データベースシステムと戯れる日々を過ごしている大
-学院生。飽きっぽい性格。学部生のころはLisp系言語に傾倒したり、マルチコア
-向け並列処理フレームワークの研究をしたりしていた。
+某研究施設にて、データベースシステムと戯れる日々を過ごしている昔はLisp系
+言語に傾倒したり、マルチコア向け並列処理フレームワークの研究をしたりして
+いた。この本の首謀者。
 
 \noindent {\gt ■ hogelog}
-
 明治座という歴史ある建物で日々プログラミングをして過ごしている。
 
-
-\noindent {\gt ■ はやみず}
-
+\noindent {\gt ■ suu-g}
 日本人。
 
-\noindent {\gt ■ mmk (表紙デザイン)}
-
+\noindent {\gt ■ yuyarin}
 日本人。
 
+\noindent {\gt ■  (表紙デザイン)}
+日本人。
+
+\newpage
 
 \vspace*{50mm}
 
@@ -259,11 +243,11 @@
   タイトル & Database Times vol.1 \\
   発行日 & 2012年8月11日 \\
   サークル & ホッチポッチソサイエティ \\
-  著者 & はやみず、hogelog、はやみず、TODO: \\
-  発行責任者 & はやみず \\
-  連絡先 & {\it yuto+c82@hayamiz.com} or {\it @hayamiz} (Twitter) \\
+  著者 & はやみず、hogelog、suu-g、yuyarin \\
+  表紙 & mmk \\
+  連絡先 & {\it yuto+c82@hayamiz.com} \\
   ウェブサイト & {\it http://hayamiz.com/\~{}hotchpotch/} \\
-  印刷所 & TODO: \\
+  印刷所 & 株式会社ポプルス \\
   \hline
  \end{tabular}
 \end{center}
