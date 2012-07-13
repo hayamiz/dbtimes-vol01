@@ -139,18 +139,67 @@ Edgar Codd その人といって間違いないでしょう。
 むことができます。自分の勉強した知識と照らし合わせながら読んでみると面白
 いのではないでしょうか。
 
-\section{データベースシステムの産声}
+\section{INGRESプロジェクト始動}
 
-UC Berlekey で INGRESプロジェクト始まる
+リレーショナルデータモデルがCoddによって提唱されてから3年後、その論文が一
+人の若き研究者の目に留まりました。その人こそ、INGRESプロジェクト、そして
+後のデータベース業界全体を率いる存在となる Michael Stonebraker です。
+1971年にミシガン大学で博士号を取得し、UC Berkeleyで研究職についたばかりの
+Stonebraker はテニュアトラック\footnote{テニュアとは大学における終身雇用
+資格のことです。若手研究者は任期の限られた研究職につき、テニュア獲得を目
+指して研究業績を積み上げてゆく、というの米国における一般的な研究者のキャ
+リアパスです。このテニュア獲得のための若手研究者が通る道をテニュアトラッ
+クと呼びます。テニュアトラックでいかに論文を``量産''できる研究ネタを選ぶ
+かというのは、若手研究者にとっては人生に関わる重要な決断なのです。}を走り
+始めたばかりであり、何か良い研究のネタはないかと思案していたところでした。
+そんな Stonebraker にとって、リレーショナルモデルは恰好の研究対象だったの
+でしょう\footnote{ちなみに Stonebraker の博士論文は ``The Reduction of
+Large Scale Markov Models for Random Chains'' というタイトルで、もともと
+は数学寄りの研究をしていたようです。 }。リレーショナルデータモデルに出会っ
+た Stonebraker は、Eugene Wong と共にリレーショナルデータベースシステムの
+実装に乗り出します。こうしてINGRESプロジェクトは始まりました。
 
-System R ?
+% http://genealogy.math.ndsu.nodak.edu/id.php?id=31091
 
-\section{つぎに}
+INGRESという名前は、{\bf IN}teractive {\bf G}raphic and {\bf RE}trieval
+{\bf S}ystem の頭文字をとったもので、本来は UC Berkeley の経済学の研究チー
+ムのために、地理情報をグラフィカルに表示するためのシステム研究として予算
+を獲得していたプロジェクトでした。そこは本音と建前で、まずはデータを効率
+的に取得するためのデータベースシステムが必要だ、ということで Stonebraker
+達はデータベースシステムの開発にのめりこんでゆきます。
 
+
+
+System R disる
+
+\section{INGRESのtechnical detail}
+
+Design and Implementation of INGRES
+
+Retrospective on Database Systems あたりをベースに書く
+
+\section{Ingres Corporation設立}
+
+後に Relational Technology Inc.,
+
+Oracleとの絡みはどうする？
+
+\section{POSTGRESプロジェクト}
+
+Post-INGRES
 
 \section*{参考文献}
 
 \begin{itemize}
  \item E. F. Codd, ``A Relational Model of Data for Large Shared Data
-       Banks'', {\it Communications of the ACM}, Vol. 13, No. 6, (1970.06)
+       Banks'', {\it Communications of the ACM}, Volume 13, Number 6,
+       1970
+ \item M. Stonebraker, G. Held, E. Wong, P. Kreps, ``The design and
+       implementation of INGRES'', {\it ACM Transactions on Database
+       Systems},
+Volume 1, Issue 3, 1976
+ \item M. Stonebraker, ``Retrospection on a database system'', {\it ACM
+       Transactions on Database Systems}, Volume 5, Issue 2, 1980
+ \item National Research Council, ``Funding a Revolution: Government
+       Support for Computing Research'', Natl Academy Pr, 1999
 \end{itemize}
