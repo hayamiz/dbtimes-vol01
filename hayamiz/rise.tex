@@ -43,7 +43,7 @@ Edgar Codd その人といって間違いないでしょう。
 {\small ※ これ以降、特に断りのない場合、リレーショナルデータベースシステムを指して
 単にデータベースシステムと書くことがあります。}
 
-\section{時代はリレーショナルへ}
+\section{リレーショナルデータモデルの登場}
 
 1960年代以前のデータベースシステムは階層型データモデル、やネットワーク型
 データモデルというデータモデルに基づいて構築されていました。
@@ -102,7 +102,9 @@ Edgar Codd その人といって間違いないでしょう。
 クト→社員とたどるように修正しなければなりません。このように、ナビゲーショ
 ナルデータベースシステムでは、ある特定のデータのみに興味があったとしても、
 その上位構造に変化があった時にはデータにアクセスする方法を再構成しなけれ
-ばなりませんでした。
+ばなりませんでした。当時IBMはIMSという階層型データモデルにもとづくデータ
+ベースシステムを開発していましたが、IMSを使ったシステムではデータ構造の変
+更に伴うコードのメンテナンスにほとんどの時間を吸い取られていました。
 
 歴史的には、階層型モデルはそのシンプルさ故に初期のデータベースシステムに
 おいて採用され、その後により一般的なデータの組織化を行うことができるよう、
@@ -113,22 +115,22 @@ Edgar Codd その人といって間違いないでしょう。
 そこに登場したのが、1970年\footnote{正確にはリレーショナルデータモデルの
 論文は1969年にIBMの社内技術報に掲載され、翌1970年に米国コンピュータ学会の
 論文誌に掲載されます。}にCoddによって提唱されたリレーショナルデータモデル
-です。リレーショナルデータモデルは、数学の集合論に基づいてデータを組織化
-する方法論であり、階層型モデルやネットワーク型モデルのようにデータアクセ
-スのための具体的なアルゴリズムを内包しません。ユーザは「どんなデータが欲
-しいか」を記述するたけで、具体的なアクセス方法はデータベース側が判断して
-データを取得することができます。つまり、ナビゲーショナルデータベースシス
-テムでは ``how'' を与えなければデータのアクセスが行えなかったのですが、リ
-レーショナルデータベースは ``what'' を与えるだけでデータのアクセスが可能
-となります\footnote{リレーショナルモデルの数学的な定義や、なぜそれにより
-``what''でデータの問い合わせが可能となるのかの説明については、それだけで
-一冊の本になってしまうので他書に譲ります。}。
+です。リレーショナルデータモデルでは、データの論理的な構造と物理的な構造
+が独立しているため、データ構造を変更するたびにアプリケーションを書き直す
+必要がありません。また、ユーザは「どんなデータが欲しいか」を記述するたけ
+で、具体的なアクセス方法はデータベース側が判断してデータを取得することが
+できます。つまり、ナビゲーショナルデータベースシステムでは ``how'' を与え
+なければデータのアクセスが行えなかったのですが、リレーショナルデータベー
+スは ``what'' を与えるだけでデータのアクセスが可能となります\footnote{リ
+レーショナルモデルの数学的な定義や、なぜそれにより``what''でデータの問い
+合わせが可能となるのかの説明については、それだけで一冊の本になってしまう
+ので他書に譲ります。}。
 
-また階層型モデルなどとは異なり、リレーショナルモデルはしっかりとした数学
-的基礎の上に成り立っており、後のデータベースシステム研究の大きな基盤とな
-りました。これまでプログラマによるある種の職人芸の上に成り立っていたデー
-タベースシステムは、リレーショナルデータモデルの登場によって科学の領域へ
-と押し上げられたのです。
+また、リレーショナルモデルは集合論にもとづくしっかりとした数学的基礎の上
+に成り立っており、後のデータベースシステム研究の大きな基盤となりました。
+これまでプログラマによるある種の職人芸の上に成り立っていたデータベースシ
+ステムは、リレーショナルデータモデルの登場によって科学の領域へと押し上げ
+られたのです。
 
 ちなみに、データベースのお勉強をした人たちは、ドメイン、リレーション、タ
 プル、主キー、外部キー、○○正規形という言葉に聞き覚えがあるかもしれませ
@@ -139,18 +141,217 @@ Edgar Codd その人といって間違いないでしょう。
 むことができます。自分の勉強した知識と照らし合わせながら読んでみると面白
 いのではないでしょうか。
 
-\section{データベースシステムの産声}
+\section{リレーショナルデータベースシステム黎明期}
 
-UC Berlekey で INGRESプロジェクト始まる
+\subsection{INGRESプロジェクト始動}
 
-System R ?
+リレーショナルデータモデルがCoddによって提唱されてから3年が経った1973年が
+終わろうとする頃、その論文が一人の若き研究者の目に留まりました。その人こ
+そ、INGRESプロジェクト、そして後のデータベース業界全体を率いる存在となる
+Michael Stonebraker です。1971年にミシガン大学で博士号を取得し、UC
+Berkeleyで研究職についたばかりのStonebraker はテニュアトラック
+\footnote{テニュアとは大学における終身雇用資格のことです。若手研究者は任
+期の限られた研究職につき、テニュア獲得を目指して研究業績を積み上げてゆく、
+というの米国における一般的な研究者のキャリアパスです。このテニュア獲得の
+ための若手研究者が通る道をテニュアトラックと呼びます。テニュアトラックで
+いかに論文を``量産''できる研究ネタを選ぶかというのは、若手研究者にとって
+は人生に関わる重要な決断なのです。}を走り始めたばかりであり、何か良い研究
+のネタはないかと思案していたところでした。そんな Stonebraker にとって、リ
+レーショナルモデルは恰好の研究対象だったのでしょう\footnote{ちなみに
+Stonebraker の博士論文は ``The Reduction of Large Scale Markov Models
+for Random Chains'' というタイトルで、もともとは数学寄りの研究をしていた
+ようです。 }。リレーショナルデータモデルに出会った Stonebraker は、
+Eugene Wong と共にリレーショナルデータベースシステムの実装に乗り出します。
+こうしてINGRESプロジェクトは始まりました。
 
-\section{つぎに}
+% http://genealogy.math.ndsu.nodak.edu/id.php?id=31091
 
+INGRESという名前は、{\bf IN}teractive {\bf G}raphic and {\bf RE}trieval
+{\bf S}ystem の頭文字をとったもので、本来は UC Berkeley の経済学の研究チー
+ムのために、地理情報をグラフィカルに表示するためのシステム研究として予算
+を獲得していたプロジェクトでした。そこは本音と建前で、まずはデータを効率
+的に取得するためのデータベースシステムが必要だ、ということで Stonebraker
+達はデータベースシステムの開発にのめりこんでゆきます。
+
+こうして走り始めたINGRESプロジェクトですが、データベースシステムを動かす
+ためのコンピュータはありませんし、そもそも Stonebraker や Wong は大きなプ
+ログラム開発の経験すらありませんでした。リレーショナルデータベースシステ
+ムの先駆けであるINGRESは、まさにゼロからのスタートでした。
+
+何はなくともデータベースシステムの開発環境がなければ話になりません。
+INGRESプロジェクトが始まって Stonebraker が最初に取り組んだのは、コンピュー
+タの調達と開発環境作りでした。当時といえば、データベースシステムを構築す
+るためには高価なメインフレームを導入して、COBOLでプログラムを書くという時
+代でした。リレーショナルデータベースシステムのように、まだ世の中に存在す
+らしていないソフトウェアのために、研究職になりたての Stonebraker がメイン
+フレームを手に入れることができるわけもありません。
+
+そんな中、ミニコンピュータと呼ばれる、いわゆる現在のPCの先駆けとなる安価
+なコンピュータシステムが1960年代に生まれ、そして1970年代にはミニコンピュー
+タをビジネスに活用しようという動きが高まり、小型ビジネスコンピュータ市場
+が生まれました。時を同じくして、ベル研究所では Ken Thompson 達によってミ
+ニコンピュータ上で動作する汎用オペレーティングシステムUNIXの開発プロジェ
+クトが始まりました。UNIXはもともとアセンブリで実装されていましたが、
+Dennis Ritchie 達によってUNIX開発のためにC言語が開発され、1973年にはC言語
+に移植されました。そう、まさにINGRESプロジェクトが始まったその年です。
+
+Stonebraker は開発環境として UNIX を、そしてINGRESの実装言語としてC言語を
+使うことを決めます。そして UNIX が動作するコンピュータとして選ばれたのが、
+DECのPDP-11/70でした。UNIXが最初にベル研究所以外の場所でインストールされ
+たのがこのINGRESプロジェクトであり、インストール時には Ken Thompson と
+Dennis Ritchie が5MBのディスクを抱えてやってきたそうです。
+
+\subsection{INGRESの進化}
+
+INGRESプロジェクトでは、リレーショナルデータベースシステムの実装における
+重要な技術が多数生み出されてゆきました。
+
+\subsubsection{クエリ言語QUELとEQUEL}
+
+リレーショナルデータベースでは、それ以前のナビゲーショナルデータベースと
+は異なり、どんなデータが欲しいか``what''を記述するだけで、具体的にどのよ
+うなデータ構造やアルゴリズムが実装されているかを一切知る必要なくデータを
+取得することができる、というのが大きなウリの一つです。その``what''を記述
+するための言語がクエリ言語です。皆さんのよく知っているSQLもクエリ言語の一
+つです。
+
+INGRESプロジェクトでは、クエリ言語としてQUELが開発されます。リレーショナ
+ルデータモデルに併せて Codd はDSL/APLHAというクエリ言語を1971年に発表して
+いるのですが、DSL/ALPHAは数学的な表記\footnote{DSL/ALPHAは関係演算
+(relational calculus)をベースとして、量化子$\exists, \forall$や、論理演算
+の記号$\lnot,\land,\lor$などがほぼそのまま用いられいていました}に基づいて
+おりやや一般的にわかりやすいものではありませんでした。QUELはDSL/ALPHAをベー
+スとして、数学的な表記のない``やさしい''クエリ言語として設計されました。
+
+QUELがどんな言語なのか、簡単なサンプルコード\footnote{1975年のINGRESの論
+文より引用}をみてみましょう。
+
+\begin{center}
+ \begin{minipage}{0.9\textwidth}
+  \begin{verbatim}
+RANGE OF C IS CITY
+RETRIEVE INTO W(C.CNAME,
+                DENSITY = C.POPULATION / C.AREA)
+         WHERE C.STATE = 'California'
+           AND C.POPULATION > 50000
+  \end{verbatim}
+ \end{minipage}
+\end{center}
+
+このサンプルコードでは、カリフォルニア州にある人口5万人以上の市について、
+市の名前と人口密度の一覧を取得するという処理を行っています。一行目の
+RANGE文では、処理の対象としてCITYテーブルを選択して、CITYテーブルのレコー
+ドを表す変数名Cを宣言しています。二行目のRETRIEVE文は、SQLでいうところの
+SELECT文に相当します。処理の結果は、一時テーブルとして作成されるWに保存さ
+れます。細かい表記の違いを別にすると、現在使われているSQLとそれほど大きな
+違いがないことがわかると思います。
+
+\subsubsection{データ構造とアクセスメソッド}
+
+\subsubsection{クエリ処理エンジン}
+
+\subsection{System R}
+
+INGRESプロジェクトからすこし遅れて、IBMでもリレーショナルデータベースシス
+テム System R の研究開発が始まります。リレーショナルデータモデルの父であ
+る Codd はIBMで働いていたにも関わらず、歴史を振り返るとIBMはリレーショナ
+ルデータベースシステム開発において常に後塵を拝しています。
+
+TODO:
+
+\section{エピローグ}
+
+1970年代には、Coddによるリレーショナルデータモデルの提唱に始まり、INGRES
+やSystem Rの研究によってリレーショナルデータベースシステムが実用に耐えう
+るものであることが証明されました。1981年には、Coddはその功績が認められ計
+算機科学分野において最も権威ある賞であるチューリング賞を受賞します。
+
+そして1970年代の終盤から1980年代は、商用リレーショナルデータベースシステ
+ムが次々と登場し、熾烈な戦いを繰り広げてゆきます。
+
+1977年、現在の Oracle の前身である Software Development Laboratories が
+Larry Ellison と Robert Miner によって設立され、1979年にはSQLベースの商用
+リレーショナルデータベースシステムとしては世界初となる Oracle RDBMS の発
+売を開始します。
+
+1979年、Jack Shemer、Philip Neches、Walter Muir、Jerold Modes、William
+Worth、Carroll ReedによってTeradataが設立され、1984年には世界初の並列デー
+タベースシステムDBC 1012をリリースします。
+
+1980年、Lawrence Rowe、Michael Stonebraker、Eugene Wong、Gary
+Morgenthaler によって INGRES 商用化のために Relational Technology (後の
+Ingres Corp.)が設立され、翌1981年に最初の商用INGRESをリリースします。
+
+時を同じくして、Roger Sippl と Laura King によって 1980年に Relational
+Database Systems (後の Informix Software) が設立され、翌1981年に
+Informix がリリースされます。
+
+IBMは1981年にSQL/DSを、さらに1983年にはDB2をリリースしてリレーショナルデー
+タベース市場に乗り出します。エンタープライズ市場の覇者であるIBMのこの動き
+は、旧来のナビゲーショナルデータベースシステムに対する新興勢力リレーショ
+ナルデータベースシステムの勝利を決定的なものにします。
+
+1984年、Mark Hoffman、Bob Epstein、Jane Doughty、Tom Hagginによって
+Sybaseが設立され、1986年にリレーショナルデータベースシステムSybaseをリリー
+スします。後にSybaseはMicrosoftと提携してSybase SQL Serverを開発し、その
+設計はMicrosoft SQL Serverにも受け継がれています。
+
+同1984年、ミニコンピュータ市場を牽引するDECがOpenVMSオペレーティングシス
+テムにおける機能として DEC Rdb を発表します。
+
+1986年、無停止コンピュータシステムを主な事業として手がける Tandem
+Computers が NonStop SQL をリリースします。
+
+そして1990年代には更にプレイヤーが増えつつもその統廃合が進み、オブジェク
+ト指向データベースシステムなど進行技術の登場、オープンソースのデータベー
+スシステム隆盛の兆候など、データベースシステムは新たな時代へと突入してゆ
+きます。
 
 \section*{参考文献}
 
+\small
+
 \begin{itemize}
  \item E. F. Codd, ``A Relational Model of Data for Large Shared Data
-       Banks'', {\it Communications of the ACM}, Vol. 13, No. 6, (1970.06)
+       Banks'', {\it Communications of the ACM}, Volume 13, Number 6,
+       1970
+ \item E. F. Codd, ``A data base sublanguage founded on the relational
+       calculus'', {\it Proceedings of the 1971 ACM SIGFIDET workshop
+       on Data Description, Access and Control}, 1971
+ \item C. J. Date, E. F. Codd, ``The relational and network approaches: Comparison of the
+       application programming interfaces'', {\it Proceedings of the
+       1974 ACM SIGFIDET workshop on Data Description, Access and
+       Control}, 1975
+ \item G. Held, M. Stonebraker, E. Wong, ``INGRES--A relational data
+       base management system'', {\it Proceedings of AFIPS 1975 NCC},
+       Volume 44, 1975
+ \item M. Stonebraker, G. Held, E. Wong, P. Kreps, ``The design and
+       implementation of INGRES'', {\it ACM Transactions on Database
+       Systems}, Volume 1, Issue 3, 1976
+ \item G. Held, M. Stonebraker, ``B-trees re-examined'', {\it Communications of the
+       ACM}, Volume 21, Issue 2, 1978
+ \item M. Stonebraker, ``Retrospection on a database system'', {\it ACM
+       Transactions on Database Systems}, Volume 5, Issue 2, 1980
+ \item D. Chamberlin, M. Astrahan, M. Blasgen, J. Gray, W. F. King,
+       B. Lindsay, R. Lorie, J. Mehl, T. Price, F. Putzolu, P. Selinger,
+       M. Schkolnick, D. Slutz, I. Traiger, B. Wade, R. Yost, ``A
+       history and evaluation of System R'', {\it Communications of the
+       ACM}, Volume 24, Issue 10, 1981
+ \item M. Stonebraker, J. Woodfill, J. Ranstrom, M. Murphy, M. Meyer,
+       E. Allman, ``Performance enhancements to a relational database
+       system'', {\it ACM Transactions on Database Systems}, Volume 8,
+       Issue 2, 1983
+ \item Relational Technology Inc., ``INGRES The Distributed SQL
+       Relational Database System Press Kit'', 1987
+ \item National Research Council, ``Funding a Revolution: Government
+       Support for Computing Research'', Natl Academy Pr, 1999
+ \item M. Stonebraker, J. M. Hellerstein, ``What Goes Around Comes
+       Around'', {\it Readings in Database Systems, Fourth Edition},
+       Morgan Kaufmann, 2005
+ \item A. Ances, ``RDBMS Workshop: Ingres and Sybase'', Computer
+       History Museum, 2007
 \end{itemize}
+
+and so many online resources
+
+\normalsize
