@@ -13,13 +13,27 @@ hogelog
 \lettrine{世}
 の中にはたくさんのプログラミング言語が存在する。
 そしてたくさんのプログラミング言語処理系が存在する。
-プログラミング言語、そして言語処理系にとって重要なものは非常に多い。
-目的のプログラムを書けるだけの言語の記述力、
-効率の良いメモリ管理システム、
-堅牢な例外処理機構など、挙げればキリがない。
-何を重視するかは議論の別れるところであろうが、
-{\LARGE \textbf{高速な言語処理系の存在}}
-が重要であることは間違いがないだろう。
+例えばRuby言語には
+Matzによるオリジナル実装を元にした
+MRI\footnote{http://www.ruby-lang.org/ja/}、
+JVM上で動作する
+JRuby\footnote{http://jruby.org/}、
+JITコンパイラや世代別GCなどが組み込まれた
+Rubinius\footnote{http://rubini.us/}、
+組み込みスクリプトエンジン向けとして作られた
+mruby\footnote{https://github.com/mruby/mruby/}
+など様々な処理系がある。
+例えば大規模分散処理のためHadoopフレームワークを利用したければ
+JRubyを使うこともあるだろう、
+エディタアプリケーションにスクリプト機能を組み込むためにはmrubyを
+使うかもしれない。
+効率の良いメモリ管理システム・
+堅牢な例外処理機構・
+ビルドの簡単さなど
+言語処理系にとって重要な機能は
+挙げればキリがないですけど
+まあ
+{\LARGE \textbf{とりあえず処理系が高速であるにこしたことはないでしょう？}}
 
 Brainf*ck
 \footnote{http://www.kmonos.net/alang/etc/brainfuck.php とかわかりやすい紹介です}
@@ -42,9 +56,11 @@ Brainf*ck
 ruby maniacs紹介程度で済ませていいんじゃないかな。
 
 \subsection{JITコンパイル}
-Xbyakとか。
+Xbyak\footnote{http://homepage1.nifty.com/herumi/soft/xbyak.html}
+とか。
 
 \subsection{最適化}
 いろんなパターンを紹介。
 
-締め切りちけーーーー！！！！！！
+なぁに、まだ5日もあるさ。
+
