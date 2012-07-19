@@ -1,66 +1,398 @@
 % -*- coding: utf-8 -*-
 %!TEX root = ../book.tex
 
-\cleardoublepage
-\plainifnotempty
+%\cleardoublepage
+%\plainifnotempty
 
-\chapter{とある世界で一番高速なBrainf*ck処理系}
+\chapter{とある世界で一番高速なBrainfuckインタプリタ}
 \begin{flushright}
 hogelog
 \end{flushright}
 
 \section{まえがき}
 \lettrine{世}
-の中にはたくさんのプログラミング言語が存在する。
-そしてたくさんのプログラミング言語処理系が存在する。
+の中にはたくさんのプログラミング言語が存在します。
+Dennis RitchieはUnixを記述するためにC言語を作り
+\footnote{The Development of the C Language* 
+\verb|http://cm.bell-labs.com/cm/cs/who/dmr/chist.html|
+}，
+Tecgrafチームはブラジルの貿易障壁の影響下で
+Luaを
+\footnote{
+The Evolution of Lua
+\verb|http://www.lua.org/doc/hopl.pdf|
+}，
+そしてUrban M\"ullerは
+チューリング完全な最小限の言語として
+Brainfuckを作成しました
+\footnote{
+\verb|http://www.muppetlabs.com/~breadbox/bf/|
+}
+。
+
+世の中にはたくさんのプログラミング言語処理系が存在します。
 例えばRuby言語には
-Matzによるオリジナル実装を元にした
-MRI\footnote{http://www.ruby-lang.org/ja/}、
+まつもとゆきひろによるオリジナル実装を元にした
+MRI\footnote{
+\verb|http://www.ruby-lang.org/ja/|
+}，
 JVM上で動作する
-JRuby\footnote{http://jruby.org/}、
+JRuby\footnote{
+\verb|http://jruby.org/|
+}，
 JITコンパイラや世代別GCなどが組み込まれた
-Rubinius\footnote{http://rubini.us/}、
+Rubinius\footnote{
+\verb|http://rubini.us/|
+}，
 組み込みスクリプトエンジン向けとして作られた
-mruby\footnote{https://github.com/mruby/mruby/}
-など様々な処理系がある。
+mruby\footnote{
+\verb|https://github.com/mruby/mruby/|
+}
+など様々な処理系があります。
 例えば大規模分散処理のためHadoopフレームワークを利用したければ
-JRubyを使うこともあるだろう、
+JRubyを使うこともあるでしょう，
 エディタアプリケーションにスクリプト機能を組み込むためにはmrubyを
-使うかもしれない。
-効率の良いメモリ管理システム・
-堅牢な例外処理機構・
-ビルドの簡単さなど
+使うかもしれません。
 言語処理系にとって重要な機能は
-挙げればキリがないですけど
-まあ
-{\LARGE \textbf{とりあえず処理系が高速であるにこしたことはないでしょう？}}
+使う局面によって変わってきますが，
+処理系が高速であればだいたいの人は嬉しいでしょう？
 
-Brainf*ck
-\footnote{http://www.kmonos.net/alang/etc/brainfuck.php とかわかりやすい紹介です}
-というとてもすごく超オモシロかっこいい言語があるのですが
-どの処理系を使えばいいのかわからなかったのでとりあえず自分で
-世界最速の処理系を作ってやったぜ、と書こうかと思いましたがやめました。
-ここではBrainf*ckの「処理系の実装が容易である」という特徴に着目します。
-というわけでBrainf*ckの処理系をお題として言語処理系の高速化に
-取り組んでみましょう。
-とりあえずの目標はこの記事のタイトル通りに
-{\LARGE \textbf{「世界で一番高速なBrainf*ck処理系」}}
-ということにしましょう。
+Brainfuckという言語は
+\verb|+ - > < , . [ ]|
+という8個の命令しか存在しない，
+処理系の実装が容易な言語です
+\footnote{
+\verb|http://www.kmonos.net/alang/etc/brainfuck.php|
+とかわかりやすい解説だと思います
+}。
+以下ではBrainfuckインタプリタの高速化を通じて
+\textbf{インタプリタの高速化}
+技術について親しんでいきましょう。
+とりあえずはこの記事のタイトル通りに
+{\Large \textbf{世界で一番高速なBrainfuck処理系}}
+を作ってみましょう。
 
-なんかこんなかんじ。
+なお以下で示すサンプルコードは
+筆者のgithubリポジトリ
+\footnote{\verb|https://github.com/hogelog/sample-code/tree/master/dbtimes-vol01|}
+から適宜参照できます。
 
-\section{高速化手法}
-まあなんか色々する。
+\section{普通の処理系}
+{\scriptsize
+\verb|https://github.com/hogelog/sample-code/blob/master/dbtimes-vol01/bf.cpp|
+}
 
-\subsection{direct threading}
-ruby maniacs紹介程度で済ませていいんじゃないかな。
+さて，まずはなんの高速化も施されていない
+Brainfuck処理系を実装します。
+（図\ref{bf.cpp}）
+
+たったこれだけの記述で一応ちゃんとした
+言語処理系になるんだから楽で良いですね。
+
+\begin{figure}[hbt]
+\begin{minipage}{0.5\hsize}
+{\scriptsize
+\begin{verbatim}
+#include <stdio.h>
+#include <string>
+int main() {
+  std::string code;
+  for (int ch;(ch=getchar())!=EOF;)
+    code.push_back(ch);
+  static int membuf[30000];
+  int *mem = membuf;
+  int depth = 0;
+  for (size_t pc=0;pc<code.size();++pc) {
+    switch(code[pc]) {
+      case '+': ++*mem; break;
+      case '-': --*mem; break;
+      case '>': ++mem; break;
+      case '<': --mem; break;
+      case ',': *mem = getchar(); break;
+      case '.': putchar(*mem); break;
+      case '[':
+\end{verbatim}
+}
+\end{minipage}
+\begin{minipage}{0.5\hsize}
+{\scriptsize
+\begin{verbatim}
+        if (*mem == 0) {
+          depth = 1;
+          while (depth != 0) {
+            switch(code[++pc]) {
+              case '[': ++depth; break;
+              case ']': --depth; break;
+            }}}
+        break;
+      case ']':
+        depth = -1;
+        while (depth != 0) {
+          switch(code[--pc]) {
+            case '[': ++depth; break;
+            case ']': --depth; break;
+          }}
+        --pc;
+        break;
+    }}
+  return 0;
+}
+\end{verbatim}
+}
+\end{minipage}
+\caption{
+普通のBrainfuckインタプリタ
+}
+\label{bf.cpp}
+\end{figure}
+
+\section{インタプリタ高速化}
+上述したインタプリタは簡潔ですしちゃんと動くので良いのですが
+あまり高速ではないので，
+いくつかの高速化を施して世界最速インタプリタにしてみましょう。
+
+\subsection{VM化}
+{\scriptsize
+\verb|https://github.com/hogelog/sample-code/blob/master/dbtimes-vol01/bf-vm.cpp|
+}
+
+プログラムの文字列を逐次解釈するインタプリタを
+高速化する手法として，
+プログラムをVM\footnote{Virtual Machineの略}
+命令列へ変換する部分と
+VM命令列のインタプリタ部分に分ける方法がよく知られています。
+RubyインタプリタのMRIは
+バージョン1.9から
+独自VMを内蔵するようになり，
+大幅な高速化に成功しました。
+ここではBrainfuckインタプリタの
+VM化を試してみましょう。
+
+図\ref{bf.cpp}
+のプログラムは
+\verb|[ ]|命令を処理する部分に
+while文があるのが気になります。
+\verb|[|
+と対応する
+\verb|]|
+は一度調べればわかるのに，
+毎回1文字ずつ探すのは効率がよくありません。
+\verb|[ ]|命令
+を対応するVM命令の位置を保持するVM命令へと
+変換することで，
+\verb|[ ]|命令
+の処理部分から
+while文が消えます。
+（図\ref{bf-vm.cpp:loop}）
+
+またプログラムを実行するforループで毎回
+\verb|pc<code.size()|
+とチェックするのも無駄です。
+処理するVM命令列の最後に
+「処理を終了する」命令を一つ追加することで，
+終了判定もswitch文の中に混ぜることができました。
+（図\ref{bf-vm.cpp:finish}）
+
+\begin{figure}[hbt]
+\begin{minipage}{0.3\hsize}
+{\scriptsize
+\begin{verbatim}
+struct Instruction {
+    char op;
+    int jmp;
+};
+\end{verbatim}
+}
+\caption{
+VM命令構造
+}
+\label{bf-vm.cpp:structure}
+\end{minipage}
+\begin{minipage}{0.3\hsize}
+{\scriptsize
+\begin{verbatim}
+case '[':
+    if (*mem == 0) {
+        pc = code.jmp;
+    }   
+    break;
+case ']':
+    pc = code.jmp;
+    break;
+\end{verbatim}
+}
+\caption{
+[]命令処理部分
+}
+\label{bf-vm.cpp:loop}
+\end{minipage}
+\begin{minipage}{0.3\hsize}
+{\scriptsize
+\begin{verbatim}
+    for (size_t pc=0;;++pc) {
+        Instruction code = codes[pc];
+        switch(code.op) {
+            ...
+            case '\0':
+                return;
+\end{verbatim}
+}
+\caption{
+終了処理
+}
+\label{bf-vm.cpp:finish}
+\end{minipage}
+\end{figure}
+
+
+\subsubsection{direct threaded code}
+{\scriptsize
+\verb|https://github.com/hogelog/sample-code/blob/master/dbtimes-vol01/bf-vm2.cpp|
+}
+
+VMの高速化手法の一つに
+direct threaded code
+と呼ばれる手法があります。
+詳細は
+Ruby 1.9
+のVM化を主導した
+笹田耕一さんによる記事
+YARV Maniacs
+\footnote{\verb|http://jp.rubyist.net/magazine/?0008-YarvManiacs|}
+に任せますが，
+この手法により
+命令処理部分に存在した大きな
+switch文による分岐コストを
+大幅に軽減できます。
 
 \subsection{JITコンパイル}
-Xbyak\footnote{http://homepage1.nifty.com/herumi/soft/xbyak.html}
-とか。
+{\scriptsize
+\verb|https://github.com/hogelog/sample-code/blob/master/dbtimes-vol01/bf-jit.cpp|
+}
+
+前の章ではVM化として
+プログラムをVM命令に変換する部分と
+VM命令を処理する部分に分けることによる
+最適化について説明しました。
+しかしどうせ変換するなら
+プログラムを実際の機械語列に変換して，
+その機会語列をそのままCPUに実行してもらえば
+良いのです。
+この手法はJITコンパイルと呼ばれています。
+最近では各種ブラウザベンダが
+「うちのブラウザのJavaScriptエンジンはJITコンパイラを内蔵してるから速いんだ！」
+と主張しあってたりすることから
+耳にする機会も多いでしょう。
+
+Xbyak\footnote{
+\verb|http://homepage1.nifty.com/herumi/soft/xbyak.html|
+}，
+asmjit\footnote{
+\verb|http://code.google.com/p/asmjit/|
+}
+などのJITアセンブラを
+用いると，
+各命令処理をアセンブラ相当の記述をするだけで
+JITコンパイラができますし，
+慣れてしまえば簡単ですね？
 
 \subsection{最適化}
-いろんなパターンを紹介。
+\begin{figure}[hbt]
+{\scriptsize
+\begin{verbatim}
++++++++++++++[->++>>>+++++>++>+<<<<<<]>>>>>++++++>--->>>>>>>>>>+++++++++++++++[[
+>>>>>>>>>]+[<<<<<<<<<]>>>>>>>>>-]+[>>>>>>>>[-]>]<<<<<<<<<[<<<<<<<<<]>>>>>>>>[-]+
+<<<<<<<+++++[-[->>>>>>>>>+<<<<<<<<<]>>>>>>>>>]>>>>>>>+>>>>>>>>>>>>>>>>>>>>>>>>>>
+>+<<<<<<<<<<<<<<<<<[<<<<<<<<<]>>>[-]+[>>>>>>[>>>>>>>[-]>>]<<<<<<<<<[<<<<<<<<<]>>
+>>>>>[-]+<<<<<<++++[-[->>>>>>>>>+<<<<<<<<<]>>>>>>>>>]>>>>>>+<<<<<<+++++++[-[->>>
+>>>>>>+<<<<<<<<<]>>>>>>>>>]>>>>>>+<<<<<<<<<<<<<<<<[<<<<<<<<<]>>>[[-]>>>>>>[>>>>>
+>>[-<<<<<<+>>>>>>]<<<<<<[->>>>>>+<<+<<<+<]>>>>>>>>]<<<<<<<<<[<<<<<<<<<]>>>>>>>>>
+[>>>>>>>>[-<<<<<<<+>>>>>>>]<<<<<<<[->>>>>>>+<<+<<<+<<]>>>>>>>>]<<<<<<<<<[<<<<<<<
+<<]>>>>>>>[-<<<<<<<+>>>>>>>]<<<<<<<[->>>>>>>+<<+<<<<<]>>>>>>>>>+++++++++++++++[[
+>>>>>>>>>]+>[-]>[-]>[-]>[-]>[-]>[-]>[-]>[-]>[-]<<<<<<<<<[<<<<<<<<<]>>>>>>>>>-]+[
+\end{verbatim}
+}
+\caption{とある巨大なBrainfuckプログラム（抜粋）}
+\label{mandelbrot.b}
+\end{figure}
+\begin{figure}[hbt]
+{\scriptsize
+\begin{verbatim}
+c[->cmc>c>+m]mc>cmc[[m]+[m]m-]+[mz>]m[m]mz+mc[-[-m+m]m]m+m+m[m]mz+[m[mzm]m[m]mz+
+mc[-[-m+m]m]m+mc[-[-m+m]m]m+m[m]m[zm[m[-m+m]m[-m+m+m+<]m]m[m]m[m[-m+m]m[-m+m+m+m
+]m]m[m]m[-m+m]m[-m+m+m]mc[[m]+>z>z>z>z>z>z>z>z>zm[m]m-]+[
+\end{verbatim}
+}
+\caption{とある巨大なBrainfuckプログラム（抜粋）を最適化}
+\label{mandelbrot.b:opt}
+\end{figure}
 
-なぁに、まだ5日もあるさ。
+{\scriptsize
+\verb|https://github.com/hogelog/sample-code/blob/master/dbtimes-vol01/bf-vm-opt.cpp|
+}
 
+{\scriptsize
+\verb|https://github.com/hogelog/sample-code/blob/master/dbtimes-vol01/bf-jit-opt.cpp|
+}
+
+ここまでは対象言語を問わない汎用的な高速化手法を紹介しました。
+ここからはBrainfuck特有の性質に着目した最適化を施してみましょう。
+
+図\ref{mandelbrot.b}
+のプログラムをしばらく眺めてみると，いくつかの無駄が存在することに気づきます。
+まずは
+\verb|++++|，
+\verb|----|，
+\verb|>>>>|，
+\verb|<<<<|
+のような同じ命令の繰り返し。
+{\it n}個の
+\verb|+|命令
+の繰り返しは
+{\it n}加算する
+\verb|c|命令，
+{\it n}個の
+\verb|-|命令
+は
+{\it -n}加算する
+\verb|c|命令に置き換えられます。
+同様に
+\verb|>|
+と
+\verb|<|
+も
+\verb|m|
+命令に
+置き換えられます。
+
+またよく出てくる命令の組み合わせに
+\verb|[-]|
+があります。
+これは「メモリの値が0になるまで\verb|-|命令を繰り返す」という処理，
+つまり「メモリの値を0にする」という
+\verb|z|命令
+に
+置き換えてしまいましょう。
+
+ここまでの最適化で
+図\ref{mandelbrot.b}
+のプログラムが
+図\ref{mandelbrot.b:opt}
+までに圧縮されます。
+特に
+\verb|z|命令
+の導入により，
+存在していたループ処理のいくつかが消えています。
+
+このように，あとはひたすら
+「こういう組み合わせよく出てくるからこういう特定の命令に置き換えよう」
+という作業を続けるだけで，なんと世界で最速のBrainfuckインタプリタが
+完成したのでした
+\footnote{
+\verb|https://github.com/hogelog/fast-bf|
+}。
+
+「世界最速の処理系だ」と主張しているのに，
+まだ誰も「こっちの方が速い」
+と言ってこないので，たぶん世界最速なんじゃないかな。
+たぶん。きっと。おそらく。
