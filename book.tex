@@ -7,9 +7,9 @@
 \usepackage{lettrine}
 \usepackage{fancyhdr}
 \usepackage{fancybox}
+\usepackage{listings}
 % Palatino
 \usepackage{palatino}
-
 
 %% Page Layout
 % B5: 182mm x 257mm
@@ -174,6 +174,26 @@
 \author{Hotchpotch Society}
 
 \newcommand{\term}[2]{\noindent{\gt $\clubsuit$ #1}$\cdots$ #2}
+
+%% Listings
+\newcommand{\listingsize}{\small}
+\lstset{language=SQL,
+morekeywords={RETRIEVE,RANGE,OF,IS},
+numbers = left,
+numberstyle = {\tiny},
+numbersep = 5pt,
+breaklines = false,
+breakindent = 40pt,
+flexiblecolumns = true,
+keepspaces = false,
+basicstyle = \listingsize,
+identifierstyle = \itshape\listingsize,
+commentstyle = \fontfamily{ptm}\selectfont\listingsize,
+stringstyle = \upshape\listingsize,
+tabsize = 4,
+escapechar = |,
+}
+
 
 \begin{document}
 
