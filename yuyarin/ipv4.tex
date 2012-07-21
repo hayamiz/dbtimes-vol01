@@ -35,9 +35,8 @@ Googleを筆頭に世界中の主要サイトがIPv6を恒久的に有効にす�
 
 \section{IPv4延命技術概観}
 
-\lettrine{枯}
-渇によってIPv4アドレスの割り振りを受けられなかったISPにおいて，顧客に割り当てるIPv4グローバルアドレスが
-無くなってしまうというシナリオが，今後実際に起こるだろう．というか起きている．
+枯渇によってIPv4アドレスの割り振りを受けられなかったISPにおいて，顧客に割り当てるIPv4グローバルアドレスが
+無くなってしまうというシナリオが，今後実際に起こるだろう．というか起きてる．
 この時に必要になるのは\textbf{顧客間でIPv4グローバルアドレスを共有する}方法である．
 IPv4アドレスの共有にはNAT\footnote{実際にはNAPTだが以降NATと呼ぶことにする}が使われる．
 
@@ -45,7 +44,7 @@ IPv4アドレスの共有にはNAT\footnote{実際にはNAPTだが以降NATと�
 
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{cccc} \hline
+\begin{tabular}{c|ccc} \hline
  & IPv4ネイティブ & \multicolumn{2}{c}{IPv6トランスポート} \\
  & & カプセル化 & トランスレーション \\\hline
 CPEでNAT & いまここ & MAP-E(旧4rd) & MAP-T(旧dIVI) \\
