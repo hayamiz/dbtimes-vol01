@@ -126,7 +126,7 @@
       \if@mainmatter
         \centering\huge\headfont \@chapapp\thechapter\@chappos
         \par\nobreak
-        \vskip \Cvs % 欧文は20pt
+        % \vskip \Cvs % 欧文は20pt
       \fi
     \fi
     \interlinepenalty\@M
@@ -135,7 +135,7 @@
 \hskip-0.03\textwidth\includegraphics[width=1.06\textwidth,height=7.59mm]{hayamiz/images/chapter-title-ornament.eps}\vskip-7.59mm\vskip-0.5\Cvs
     \end{center}
     \par\nobreak
-    \vskip 1\Cvs}} % 欧文は40pt
+    \vskip 1.000\Cvs}} % 欧文は40pt
 \def\@makeschapterhead#1{%
   {\parindent \z@ \raggedright
     \normalfont
@@ -146,6 +146,16 @@
     \end{center}
 	\par\nobreak
     \vskip 3\Cvs}} % 欧文は40pt
+
+% section
+% 後アキの調整
+\renewcommand{\section}{%
+  \if@slide\clearpage\fi
+  \@startsection{section}{1}{\z@}%
+  {\Cvs \@plus.5\Cdp \@minus.2\Cdp}% 前アキ
+  {.7\Cvs \@plus.3\Cdp}% 後アキ
+  {\normalfont\Large\headfont\raggedright}}
+
 \makeatother
 
 \renewcommand{\prechaptername}{}
