@@ -156,6 +156,13 @@
   {.7\Cvs \@plus.3\Cdp}% 後アキ
   {\normalfont\Large\headfont\raggedright}}
 
+% 前・後アキの調整
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+  {0.7\Cvs \@plus.5\Cdp \@minus.2\Cdp}% 前アキ
+  {.25\Cvs \@plus.3\Cdp}% 後アキ
+  {\normalfont\large\headfont}}
+
+
 \makeatother
 
 \renewcommand{\prechaptername}{}
@@ -196,7 +203,7 @@ breaklines = false,
 breakindent = 40pt,
 flexiblecolumns = true,
 keepspaces = false,
-basicstyle = \listingsize,
+basicstyle = \normalsize,
 identifierstyle = \itshape\listingsize,
 commentstyle = \fontfamily{ptm}\selectfont\listingsize,
 stringstyle = \upshape\listingsize,
@@ -312,7 +319,7 @@ escapechar = |,
 \noindent {\gt ■ Eliza (表紙デザイン)} \quad
 人生のほとんどを画像処理と行列演算に費やしている謎の美女。高次元空間に迷い込んだら、会えるかもしれない。
 
-\vspace*{70mm}
+\vspace*{60mm}
 
 % 奥付
 \begin{center}
