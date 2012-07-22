@@ -3,7 +3,7 @@
 files=""
 para=0
 
-for page in $(seq 1 41); do
+for page in $(seq 1 43); do
 	next_page=$((page+1))
 	pdftk page$page.pdf stamp page$next_page.pdf output match$page.pdf &
 	files="$files match${page}.pdf"

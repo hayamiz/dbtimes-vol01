@@ -4,7 +4,7 @@
 page%.pdf: ../book-ready.pdf
   pdftk ../book-ready.pdf cat $(shell echo $@|sed -e 's/page//'|sed -e 's/\.pdf//') output $@
 
-baseline-match.pdf: make-baseline-match.sh page1.pdf page2.pdf page3.pdf page4.pdf page5.pdf page6.pdf page7.pdf page8.pdf page9.pdf page10.pdf page11.pdf page12.pdf page13.pdf page14.pdf page15.pdf page16.pdf page17.pdf page18.pdf page19.pdf page20.pdf page21.pdf page22.pdf page23.pdf page24.pdf page25.pdf page26.pdf page27.pdf page28.pdf page29.pdf page30.pdf page31.pdf page32.pdf page33.pdf page34.pdf page35.pdf page36.pdf page37.pdf page38.pdf page39.pdf page40.pdf page41.pdf page42.pdf # page43.pdf page44.pdf
+baseline-match.pdf: make-baseline-match.sh page1.pdf page2.pdf page3.pdf page4.pdf page5.pdf page6.pdf page7.pdf page8.pdf page9.pdf page10.pdf page11.pdf page12.pdf page13.pdf page14.pdf page15.pdf page16.pdf page17.pdf page18.pdf page19.pdf page20.pdf page21.pdf page22.pdf page23.pdf page24.pdf page25.pdf page26.pdf page27.pdf page28.pdf page29.pdf page30.pdf page31.pdf page32.pdf page33.pdf page34.pdf page35.pdf page36.pdf page37.pdf page38.pdf page39.pdf page40.pdf page41.pdf page42.pdf page43.pdf page44.pdf
   bash make-baseline-match.sh
 
 # .DEFAULT: baseline-match.pdf
