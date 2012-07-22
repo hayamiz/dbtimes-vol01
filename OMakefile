@@ -15,7 +15,7 @@ build: book.dvi book.pdf
 
 LaTeXDocument(book, book)
 
-book-ready.pdf: book.dvi
+book-ready.pdf: book.dvi book.pdf
   $(DVIPDFM) -r 2400 -f kozuka.map -z 0 -o $@ $<
   pdftk $@ output book-ready-uncompress.pdf uncompress
 
