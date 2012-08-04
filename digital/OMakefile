@@ -1,6 +1,30 @@
 # デジタルデータとして頒布するもの
 
-dbtimes-vol01.pdf: ../book-notombo-ready.pdf
+PDF = dbtimes-vol01.pdf
+
+.PHONY: samples clean
+
+samples: $(PDF)
+  pdftk $(PDF) cat 2 output -|convert - sample1.png
+  pdftk $(PDF) cat 4 output -|convert - sample2.png
+  pdftk $(PDF) cat 5 output -|convert - sample3.png
+  pdftk $(PDF) cat 6 output -|convert - sample4.png
+  pdftk $(PDF) cat 8 output -|convert - sample5.png
+  pdftk $(PDF) cat 9 output -|convert - sample6.png
+  pdftk $(PDF) cat 10 output -|convert - sample7.png
+
+clean:
+  rm $(PDF)
+  rm sample*.png
+
+dbtimes-vol01.zip: $(PDF)
+  rm -rf dbtimes-vol01
+  mkdir -p dbtimes-vol01/product/
+  cp $< dbtimes-vol01/product/1.pdf
+  zip -r $@ dbtimes-vol01/
+
+$(PDF): ../book-notombo-ready.pdf
   pdftk A=cover-half-web.pdf B=$< cat A B output $@
 
-.DEFAULT: dbtimes-vol01.pdf
+
+.DEFAULT: dbtimes-vol01.zip
