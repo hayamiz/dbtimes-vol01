@@ -1,0 +1,6 @@
+# デジタルデータとして頒布するもの
+
+dbtimes-vol01.pdf: ../book-notombo-ready.pdf
+  pdftk A=cover-half-web.pdf B=$< cat A B output $@
+
+.DEFAULT: dbtimes-vol01.pdf

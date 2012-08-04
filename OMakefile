@@ -1,22 +1,48 @@
 
-.SUBDIRS: hayamiz hogelog styling
+.SUBDIRS: hayamiz hogelog styling digital
 
 LATEX = platex -interaction=batchmode
 DVIPDFM = dvipdfmx
 # BIBTEX = jbibtex
 DVIPDFMFLAGS = -r 2400 -z 0 # otf-ipaex.map # -f dvipdfm_dl14.map
 
-.PHONY: clean build
+#
+# PHONY rules
+# 
+
+.PHONY: clean build sample
 
 clean:
   rm -f *.aux *.log *.bbl *.toc *.nav *.fls *.out *.snm *.vrb *.dvi *.pdf *.blg
 
 build: book.dvi book.pdf
 
+sample: dbtimes-vol01-sample.pdf
+
+
+#
+# Document generation rules
+#
+
+book-notombo.tex: book.tex
+  sed -e 's/,tombow//' $< > $@
+
 LaTeXDocument(book, book)
+LaTeXDocument(book-notombo, book-notombo)
+
+
+#
+# PDF file generation rules
+#
 
 book-ready.pdf: book.dvi book.pdf
   $(DVIPDFM) -r 2400 -f kozuka.map -z 0 -o $@ $<
   pdftk $@ output book-ready-uncompress.pdf uncompress
+
+book-notombo-ready.pdf: book-notombo.dvi book-notombo.pdf
+  $(DVIPDFM) -r 2400 -f kozuka.map -z 0 -o $@ $<
+
+dbtimes-vol01-sample.pdf: book-notombo-ready.pdf
+  pdftk A=cover-half-web.pdf B=$< cat A B1-10 output $@
 
 .DEFAULT: build
