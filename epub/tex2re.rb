@@ -4,6 +4,7 @@
 # TeX article file convertor
 
 require 'optparse'
+require 'uri'
 
 def parse_args(argv)
   opt = Hash.new
@@ -45,6 +46,16 @@ def do_adhoc(str)
   str.gsub!(/^\\small$/, "")
   str.gsub!(/^\\normalsize$/, "")
 
+  # URL
+  str.gsub!(/\\verb\|(.+?)\|/) do |m|
+    s = $1
+    if s =~ URI.regexp
+      s
+    else
+      m
+    end
+  end
+
   text_pairs = {
     %! \\vspace*{-0.1\\Cvs}! => "",
     %!$10^{12} = 1 \\mathrm{TB}$! => %!@<raw>#{LBRACE}|html|10<sup>12</sup>#{RBRACE}=1TB!,
@@ -55,6 +66,10 @@ def do_adhoc(str)
     %!B$^+$! => %!@<raw>#{LBRACE}|html|B<sup>+</sup>#{RBRACE}!,
     %!\\paragraph{Step 4.} \\ ! => %!\\paragraph{Step 4.}!,
     %!\\verb|http://s2k-ftp.cs.berkeley.edu/ingres/|! => %!http://s2k-ftp.cs.berkeley.edu/ingres/!,
+    %!\\verb|pc<code.size()|! => %!@<tt>#{LBRACE}pc<code.size()#{RBRACE}!,
+    %!\\verb|c|! => %!@<tt>#{LBRACE}c#{RBRACE}!,
+    %!\\verb|m|! => %!@<tt>#{LBRACE}m#{RBRACE}!,
+    %!\\verb|z|! => %!@<tt>#{LBRACE}z#{RBRACE}!,
   }
 
   text_pairs.each do |k,v|
@@ -83,7 +98,7 @@ def do_adhoc(str)
   end
 
   str.gsub!(/図\s*\\ref\{([^\}]*)\}/) do |m|
-    "@<img>#{LBRACE}#{img_refs[$1.strip] || "UNKNOWN"}#{RBRACE}"
+    "@<img>#{LBRACE}#{img_refs[$1.strip] || $1.strip}#{RBRACE}"
   end
 
   str.gsub!(/^\s*\\begin\{enumerate\}((?:.|\n)*)\s*\\end\{enumerate\}/) do |m|
@@ -112,6 +127,21 @@ def do_adhoc(str)
         items_str += "  * " + item.gsub(/\n\s*/,"").strip + "\n"
       end
       items_str
+    end
+  end
+
+  # brainfuck
+  str.gsub!(/\\verb\|([-+><,\.\[\] ]+)\|/) do |m|
+    %!@<tt>#{LBRACE}#{$1}#{RBRACE}!
+  end
+
+  # file url in hoge.tex
+  str.gsub!(/\{\\scriptsize((?:.|\n)+?)\}/) do |m|
+    s = $~[1].strip
+    if s.strip =~ URI.regexp && s == $~[0]
+      s
+    else
+      m
     end
   end
 
@@ -160,10 +190,20 @@ def main(argv)
   str.gsub!(/\\lettrine\{(.+)\}\s*(?:(\\\s+)*)/, "\\1")
 
   # remove umlaut
-  str.gsub!(/\\"{(.)}/) do |m|
+  str.gsub!(/\\"\{(.)\}/) do |m|
     case $1
     when "o"
       "@<raw>#{LBRACE}|html|&ouml;#{RBRACE}"
+    else
+      raise RuntimeError.new
+    end
+  end
+  str.gsub!(/\\"(.)/) do |m|
+    case $1
+    when "o"
+      "@<raw>#{LBRACE}|html|&ouml;#{RBRACE}"
+    when "u"
+      "@<raw>#{LBRACE}|html|&uuml;#{RBRACE}"
     else
       raise RuntimeError.new
     end
@@ -180,6 +220,9 @@ def main(argv)
 
   # bf
   str.gsub!(/\{\\bf([^\}]*)\}/) do |m|
+    "@<b>#{LBRACE}#{$1.strip}#{RBRACE}"
+  end
+  str.gsub!(/\\textbf\{([^\}]*)\}/) do |m|
     "@<b>#{LBRACE}#{$1.strip}#{RBRACE}"
   end
 
