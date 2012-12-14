@@ -73,18 +73,6 @@ INGRESという名前は，@<b>{IN}teractive @<b>{G}raphic and @<b>{RE}trieval @
 
 INGRESプロジェクトでは，リレーショナルデータベースシステムの実装における重要な技術が多数生み出されてゆきました。当時のINGRESがどのように設計されていたのか，1976年に発表された論文@<raw>{|html|&ldquo;}The design and implementation of INGRES@<raw>{|html|&rdquo;}をもとに，その技術的な側面を概観してゆきます。
 
-  \begin{screen}
-   以降の説明で使われる用語
-
-   \footnotesize
-   \term{リレーション}{リレーショナルモデルにおける，いわゆるテーブルのこと}
-
-   \term{タプル}{リレーショナルモデルにおける，いわゆるレコードのこと}
-
-  \end{screen}
-
- \vspace*{0.6\Cvs}
-
 === クエリ言語QUEL
 
 リレーショナルデータベースでは，それ以前のナビゲーショナルデータベースとは異なり，どんなデータが欲しいか@<raw>{|html|&ldquo;}what@<raw>{|html|&rdquo;}を記述するだけで，具体的にどのようなデータ構造やアルゴリズムが実装されているかを一切知る必要なくデータを取得することができる，というのが大きなウリの一つです。その@<raw>{|html|&ldquo;}what@<raw>{|html|&rdquo;}を記述するための言語がクエリ言語です。皆さんのよく知っているSQLもクエリ言語の一つです。
