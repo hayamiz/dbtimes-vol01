@@ -42,14 +42,77 @@ RBRACE = "!!!RBRACE!!!"
 def do_adhoc(str)
   str.gsub!(/^\\cleardoublepage$/, "")
   str.gsub!(/^\\plainifnotempty$/, "")
+  str.gsub!(/^\\small$/, "")
+  str.gsub!(/^\\normalsize$/, "")
 
   text_pairs = {
+    %! \\vspace*{-0.1\\Cvs}! => "",
     %!$10^{12} = 1 \\mathrm{TB}$! => %!@<raw>#{LBRACE}|html|10<sup>12</sup>#{RBRACE}=1TB!,
+    %!$\\exists, \\forall$! => %!@<raw>#{LBRACE}|html|&exist;, &forall;#{RBRACE}!,
+    %!$\\lnot,\\land,\\lor$! => %!@<raw>#{LBRACE}|html|&not;,&and;,&or;#{RBRACE}!,
+    %!$>$! => %!@<raw>#{LBRACE}|html|&gt;#{RBRACE}!,
+    %!$<$! => %!@<raw>#{LBRACE}|html|&lt;#{RBRACE}!,
+    %!B$^+$! => %!@<raw>#{LBRACE}|html|B<sup>+</sup>#{RBRACE}!,
+    %!\\paragraph{Step 4.} \\ ! => %!\\paragraph{Step 4.}!,
+    %!\\verb|http://s2k-ftp.cs.berkeley.edu/ingres/|! => %!http://s2k-ftp.cs.berkeley.edu/ingres/!,
   }
 
   text_pairs.each do |k,v|
     regex = Regexp.compile(Regexp.quote(k))
     str.gsub!(regex, v)
+  end
+
+  str.gsub!(/^\s*\\begin\{lstlisting\}\n((?:.|\n)*?)\n\s*\\end\{lstlisting\}\n/) do |m|
+    "//emlist{\n" + $1 + "\n//}\n"
+  end
+
+  str.gsub!(/^\s*\\(begin|end)\{(minipage|center|figure)\}.*$/, "")
+
+  img_refs = Hash.new
+  str.gsub!(/^\s*\\includegraphics(?:\[.*?\])?\{(.+?)\}\s*\n\s*\\caption\{(.+?)\}\s*\n\s*\\label\{(.+?)\}/) do |m|
+    imgfile = $1.strip
+    caps = $2.strip
+    label = $3.strip
+    if imgfile =~ /\.eps\Z/
+      imgfile = File.basename(imgfile, ".eps")
+      img_refs[label.strip] = imgfile
+      "\n//image[#{imgfile}][#{caps}]{\n//}\n"
+    else
+      $0
+    end
+  end
+
+  str.gsub!(/図\s*\\ref\{([^\}]*)\}/) do |m|
+    "@<img>#{LBRACE}#{img_refs[$1.strip] || "UNKNOWN"}#{RBRACE}"
+  end
+
+  str.gsub!(/^\s*\\begin\{enumerate\}((?:.|\n)*)\s*\\end\{enumerate\}/) do |m|
+    block = $1
+    idx = 0
+    if block =~ /\\begin/
+      block
+    else
+      items = block.strip.split(/\\item\s*/).select{|s| s.size > 0}
+      items_str = "\n"
+      items.each do |item|
+        items_str += "  " + (idx += 1).to_s + ". " + item.gsub(/\n\s*/,"").strip + "\n"
+      end
+      items_str
+    end
+  end
+
+  str.gsub!(/^\s*\\begin\{itemize\}((?:.|\n)*)\s*\\end\{itemize\}/) do |m|
+    block = $1
+    if block =~ /\\begin/
+      block
+    else
+      items = block.strip.split(/\\item\s*/).select{|s| s.size > 0}
+      items_str = "\n"
+      items.each do |item|
+        items_str += "  * " + item.gsub(/\n\s*/,"").strip + "\n"
+      end
+      items_str
+    end
   end
 
   str
@@ -60,6 +123,7 @@ def main(argv)
 
   tex_file = opt[:file]
   basename = File.basename(tex_file, ".tex")
+  $prefix = basename + "-"
 
   str = File.read(tex_file)
 
