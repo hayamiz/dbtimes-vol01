@@ -167,7 +167,7 @@ def main(argv)
   str.gsub!(/^\\noindent\s*/, "//noindent\n")
 
   # make chapter/section/subsection/paragraph an independent block
-  str.gsub!(/(\\(?:chapter|(?:sub)*section|paragraph))\*?\{(.*)\}/) do |m|
+  str.gsub!(/(\\(?:chapter|(?:sub)*section|paragraph))\*?\s*\{(.*)\}/) do |m|
     case $1
     when "\\chapter"
       prefix = "= "
