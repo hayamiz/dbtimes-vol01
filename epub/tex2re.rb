@@ -241,6 +241,11 @@ def main(argv)
     "@<b>#{LBRACE}#{$1.strip}#{RBRACE}"
   end
 
+  # tt
+  str.gsub!(/\{\\tt([^\}]*)\}/) do |m|
+    "@<tt>#{LBRACE}#{$1.strip}#{RBRACE}"
+  end
+
   # it
   str.gsub!(/\{\\it([^\}]*)\}/) do |m|
     "@<i>#{LBRACE}#{$1.strip}#{RBRACE}"
@@ -255,8 +260,8 @@ def main(argv)
     "@<raw>#{LBRACE}|html|&ldquo;#{RBRACE}" + $1 + "@<raw>#{LBRACE}|html|&rdquo;#{RBRACE}"
   end
 
-  # remove escape of %/_/#
-  str.gsub!(/\\(%|_|#)/, "\\1")
+  # remove escape of %/_/#/TeX/LaTeX
+  str.gsub!(/\\(%|_|#|TeX|LaTeX)/, "\\1")
 
   # footnote
   blocks = str.split(/\n\n+/)
