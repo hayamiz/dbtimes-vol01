@@ -45,6 +45,7 @@ def do_adhoc(str)
   str.gsub!(/^\\plainifnotempty$/, "")
   str.gsub!(/^\\small$/, "")
   str.gsub!(/^\\normalsize$/, "")
+  str.gsub!(/^\\centering$/, "")
 
   # URL
   str.gsub!(/\\verb\|(.+?)\|/) do |m|
@@ -70,6 +71,9 @@ def do_adhoc(str)
     %!\\verb|c|! => %!@<tt>#{LBRACE}c#{RBRACE}!,
     %!\\verb|m|! => %!@<tt>#{LBRACE}m#{RBRACE}!,
     %!\\verb|z|! => %!@<tt>#{LBRACE}z#{RBRACE}!,
+    %!$n$! => %!n!,
+    %!$\\mathrm{O}(1)$! => %!O(1)!,
+    %!$\\mathrm{O}(n)$! => %!O(n)!,
   }
 
   text_pairs.each do |k,v|
@@ -84,7 +88,7 @@ def do_adhoc(str)
   str.gsub!(/^\s*\\(begin|end)\{(minipage|center|figure)\}.*$/, "")
 
   img_refs = Hash.new
-  str.gsub!(/^\s*\\includegraphics(?:\[.*?\])?\{(.+?)\}\s*\n\s*\\caption\{(.+?)\}\s*\n\s*\\label\{(.+?)\}/) do |m|
+  str.gsub!(/^\s*\\includegraphics(?:\[.*?\])?\{(.+?)\}[\s\n]*\\caption\{(.+?)\}[\s\n]*\\label\{(.+?)\}/) do |m|
     imgfile = $1.strip
     caps = $2.strip
     label = $3.strip
@@ -92,9 +96,20 @@ def do_adhoc(str)
       imgfile = File.basename(imgfile, ".eps")
       img_refs[label.strip] = imgfile
       "\n//image[#{imgfile}][#{caps}]{\n//}\n"
+    elsif imgfile =~ /\.pdf\Z/
+      imgfile = File.basename(imgfile, ".pdf")
+      img_refs[label.strip] = imgfile
+      "\n//image[#{imgfile}][#{caps}]{\n//}\n"
     else
-      $0
+      m
     end
+  end
+
+  str.gsub!(/^\s*\\includegraphics(?:\[.*?\])?\{(.+?)\}[\s\n]*\\caption\{(.+?)\}/) do |m|
+    imgfile = File.basename($1.strip)
+    caps = $2.strip
+    imgfile.gsub!(/\.\w+\Z/, "")
+    "\n//image[#{imgfile}][#{caps}]{\n//}\n"
   end
 
   str.gsub!(/図\s*\\ref\{([^\}]*)\}/) do |m|
