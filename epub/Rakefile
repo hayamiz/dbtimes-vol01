@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+
+require 'yaml'
+require 'rake/clean'
+
+CONFIG_FILE = "config.yml"
+
+CONFIG = YAML.load(File.open(CONFIG_FILE))
+BOOKNAME = CONFIG["bookname"]
+EPUB_FILE = "#{BOOKNAME}.epub"
+RE_CHAPS = File.read("CHAPS").split rescue []
+RE_PREDEF = File.read("PREDEF").split rescue []
+RE_POSTDEF = File.read("POSTDEF").split rescue []
+RE_FILES = RE_PREDEF + RE_CHAPS + RE_POSTDEF
+
+CLOBBER.include(EPUB_FILE)
+CLEAN.include(BOOKNAME + "-epub")
+
+task :default => [:epub]
+
+desc "EPUBファイルを生成"
+task :epub => RE_FILES + ["_colophon.html"]  do
+  sh "rm -f #{EPUB_FILE}"
+  sh "rm -rf #{BOOKNAME + "-epub"}"
+  sh "review-epubmaker #{CONFIG_FILE}"
+end
+
+file "_colophon.html" => "make-colophon.rb" do
+  sh "ruby ./make-colophon.rb > _colophon.html"
+end

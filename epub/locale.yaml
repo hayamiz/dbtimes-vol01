@@ -1,0 +1,19 @@
+locale: ja
+image: 図
+table: 表
+list: リスト
+part: 第%d部
+chapter: "%d"
+chapter_postfix: "　"
+numberless_image: "図:"
+format_number: "%s.%d"
+format_number_header: "%s.%d:"
+format_number_without_chapter: "%d"
+format_number_header_without_chapter: "%d:"
+caption_prefix: " "
+caption_prefix_idgxml: "　"
+ruby_prefix: "（"
+ruby_postfix: "）"
+
+
+
