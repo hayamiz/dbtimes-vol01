@@ -127,21 +127,17 @@ RETRIEVE (E.NAME)
 
 次の2つのクエリを実行
 
-//emlist{
+//emlist[(1)]{
 RANGE OF D IS DEPT
 RETRIEVE INTO T1(D.DEPT)
    WHERE D.FLOOR# = 1
 //}
 
-  (1)
-
-//emlist{
+//emlist[(2)]{
 RANGE OF E IS EMPLOYEE
 RETRIEVE INTO T2(E.NAME, E.SALARY, E.MANAGER, E.DEPT)
    WHERE E.AGE > 40
 //}
-
-  (2)
 
 こうすると，一時リレーション@<i>{T1}，@<i>{T2}を使って最初のクエリは次のようになります。
 
