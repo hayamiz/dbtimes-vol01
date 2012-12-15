@@ -31,4 +31,8 @@ The Database Times vol.1 をお手にとっていただきありがとうござ�
 
 @<br>{}
 @<b>{■ 電算機技能者的同人誌執筆環境構築概論} @<br>{}
-本書は \LaTeX で執筆されています。プログラマが \LaTeX で本を書くというのはどういうことなのか，その開発(執筆)環境を紹介します。
+本書は LaTeX で執筆されています。プログラマが LaTeX で本を書くというのはどういうことなのか，その開発(執筆)環境を紹介します。
+
+== 謝辞
+
+本書のEPUB版およびKindle版は，電子出版システム@<href>{https://github.com/kmuto/review,ReVIEW}を用いて作成されました。@<href>{https://github.com/kmuto/review,ReVIEW}開発チームの皆様にこの場を借りて御礼申し上げます。
