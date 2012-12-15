@@ -33,7 +33,7 @@ coverfile: _cover.html
 # coverimage: 表紙用画像ファイル
 coverimage: cover.png
 # 固有IDに使用するドメイン
-urnid: http://hayamiz.com/~hotchpotch/books/dbtimes-vol01/1.0.0/
+urnid: http://hayamiz.com/~hotchpotch/books/dbtimes-vol01/1.0.1/
 # CSSファイル (yamlファイルおよびReVIEWファイルを置いたディレクトリにあること
 stylesheet: dbtimes.css
 # 目次として抽出するレベル
@@ -48,5 +48,5 @@ mytoc: true
 colophon: _colophon.html
 texstyle:
 pubhistory: |
-  2012年12月16日 v1.0.0版発行
+  2012年12月16日 v1.0.1版発行
 debug: true
